@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { BookOpen, Award, Users, Target, Sparkles, ArrowRight } from "lucide-react"
+import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -122,13 +123,12 @@ const ProfessionalBioSection = () => {
                 </div>
 
                 <div className="mt-8 flex gap-4">
-                  <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-                    View My Work
-                    <ArrowRight className="ml-2" size={16} />
-                  </Button>
-                  <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800">
-                    Download CV
-                  </Button>
+                  <Link href="/projects">
+                    <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                      View My Work
+                      <ArrowRight className="ml-2" size={16} />
+                    </Button>
+                  </Link>
                 </div>
               </CardContent>
             </Card>

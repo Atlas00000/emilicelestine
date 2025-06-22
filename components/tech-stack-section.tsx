@@ -43,12 +43,12 @@ const TechStackSection = () => {
 
   const techStack = {
     Backend: [
-      { name: "Python", level: 95, icon: "🐍", description: "Django, FastAPI, Flask", years: "5+" },
-      { name: "Node.js", level: 87, icon: "🟢", description: "Express, NestJS", years: "4+" },
+      { name: "Python", level: 95, icon: "🐍", description: "Django, FastAPI, Flask", years: "2+" },
+      { name: "Node.js", level: 87, icon: "🟢", description: "Express, NestJS", years: "2+" },
       { name: "Go", level: 75, icon: "🔵", description: "Gin, Fiber", years: "2+" },
     ],
     Frontend: [
-      { name: "React", level: 90, icon: "⚛️", description: "Hooks, Context, Redux", years: "4+" },
+      { name: "React", level: 90, icon: "⚛️", description: "Hooks, Context, Redux", years: "3+" },
       { name: "Next.js", level: 88, icon: "▲", description: "SSR, SSG, API Routes", years: "3+" },
       { name: "Vue.js", level: 82, icon: "💚", description: "Composition API, Vuex", years: "3+" },
       { name: "TypeScript", level: 92, icon: "🔷", description: "Type-safe development", years: "3+" },
@@ -60,16 +60,16 @@ const TechStackSection = () => {
       { name: "Swift", level: 65, icon: "🍎", description: "iOS development", years: "1+" },
     ],
     Database: [
-      { name: "PostgreSQL", level: 88, icon: "🐘", description: "Advanced queries, optimization", years: "4+" },
+      { name: "PostgreSQL", level: 88, icon: "🐘", description: "Advanced queries, optimization", years: "2+" },
       { name: "MongoDB", level: 82, icon: "🍃", description: "NoSQL, aggregation", years: "3+" },
       { name: "Redis", level: 78, icon: "🔴", description: "Caching, sessions", years: "3+" },
-      { name: "MySQL", level: 85, icon: "🐬", description: "Relational databases", years: "4+" },
+      { name: "MySQL", level: 85, icon: "🐬", description: "Relational databases", years: "2+" },
     ],
     Tools: [
       { name: "Docker", level: 83, icon: "🐳", description: "Containerization", years: "3+" },
       { name: "GitHub Actions", level: 80, icon: "⚙️", description: "CI/CD pipelines", years: "2+" },
       { name: "TensorFlow", level: 75, icon: "🧠", description: "Machine learning", years: "2+" },
-      { name: "Pandas", level: 90, icon: "🐼", description: "Data analysis", years: "4+" },
+      { name: "Pandas", level: 90, icon: "🐼", description: "Data analysis", years: "2+" },
     ],
   }
 

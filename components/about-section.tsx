@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { motion, useInView } from "framer-motion"
 import { Code, Database, Smartphone, Globe, Award, Users, Calendar } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
@@ -17,7 +17,7 @@ const AnimatedCounter = ({
   const ref = useRef(null)
   const isInView = useInView(ref)
 
-  useState(() => {
+  useEffect(() => {
     if (isInView) {
       let startTime: number
       const animate = (currentTime: number) => {
@@ -28,7 +28,7 @@ const AnimatedCounter = ({
       }
       requestAnimationFrame(animate)
     }
-  })
+  }, [isInView, end, duration])
 
   return (
     <span ref={ref} className="font-bold">
@@ -93,10 +93,10 @@ const AboutSection = () => {
   ]
 
   const stats = [
-    { label: "Projects Completed", value: 7, icon: Award, suffix: "+" },
-    { label: "Technologies Mastered", value: 15, icon: Code, suffix: "+" },
-    { label: "Years Experience", value: 5, icon: Calendar, suffix: "+" },
-    { label: "Happy Clients", value: 50, icon: Users, suffix: "+" },
+    { label: "Projects Completed", value: 10, icon: Award, suffix: "+" },
+    { label: "Technologies Proficiency", value: 7, icon: Code, suffix: "+" },
+    { label: "Years Experience", value: 2, icon: Calendar, suffix: "+" },
+    { label: "Happy Clients", value: 10, icon: Users, suffix: "+" },
   ]
 
   const timeline = [
