@@ -26,86 +26,40 @@ import Navigation from "@/components/navigation"
 import ParticleBackground from "@/components/particle-background"
 import Link from "next/link"
 
-const pageVariants = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -20 },
-}
-
-const staggerContainer = {
-  animate: {
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-}
-
+// Simplified animation variants - reduced complexity
 const fadeInUp = {
-  initial: { opacity: 0, y: 60 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.6, -0.05, 0.01, 0.99],
-    },
-  },
+  initial: { opacity: 0, y: 30 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.6, ease: "easeOut" }
 }
 
-const scaleIn = {
-  initial: { opacity: 0, scale: 0.8 },
-  animate: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
+const fadeIn = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  transition: { duration: 0.5 }
 }
 
-const slideInLeft = {
-  initial: { opacity: 0, x: -60 },
-  animate: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.6, -0.05, 0.01, 0.99],
-    },
-  },
-}
-
-const slideInRight = {
-  initial: { opacity: 0, x: 60 },
-  animate: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.6, -0.05, 0.01, 0.99],
-    },
-  },
-}
-
-// Animated counter component
+// Optimized animated counter - simplified logic
 const AnimatedCounter = ({
   end,
-  duration = 2000,
+  duration = 1500,
   suffix = "",
 }: { end: number; duration?: number; suffix?: string }) => {
   const [count, setCount] = useState(0)
   const ref = useRef(null)
-  const isInView = useInView(ref)
+  const isInView = useInView(ref, { once: true, margin: "-50px" })
 
   useEffect(() => {
     if (isInView) {
-      let startTime: number
-      const animate = (currentTime: number) => {
-        if (!startTime) startTime = currentTime
-        const progress = Math.min((currentTime - startTime) / duration, 1)
+      const startTime = Date.now()
+      const animate = () => {
+        const elapsed = Date.now() - startTime
+        const progress = Math.min(elapsed / duration, 1)
         setCount(Math.floor(progress * end))
-        if (progress < 1) requestAnimationFrame(animate)
+        
+        if (progress < 1) {
+          requestAnimationFrame(animate)
+        }
       }
       requestAnimationFrame(animate)
     }
@@ -268,13 +222,7 @@ export default function AboutPage() {
     activeSkillCategory === "All" ? skills : skills.filter((skill) => skill.category === activeSkillCategory)
 
   return (
-    <motion.div
-      variants={pageVariants}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      className="min-h-screen bg-black text-white relative overflow-x-hidden"
-    >
+    <div className="min-h-screen bg-black text-white relative overflow-x-hidden">
       <ParticleBackground />
       <Navigation />
 
@@ -282,9 +230,9 @@ export default function AboutPage() {
       <section className="pt-24 pb-12 px-4">
         <div className="max-w-7xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            variants={fadeIn}
+            initial="initial"
+            animate="animate"
             className="flex items-center gap-4 mb-8"
           >
             <Link href="/">
@@ -296,9 +244,9 @@ export default function AboutPage() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
+            variants={fadeInUp}
+            initial="initial"
+            animate="animate"
             className="text-center mb-16"
           >
             <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
@@ -318,14 +266,13 @@ export default function AboutPage() {
           <div className="grid lg:grid-cols-2 gap-12 mb-20">
             {/* Personal Info Card */}
             <motion.div
-              variants={slideInLeft}
+              variants={fadeInUp}
               initial="initial"
               whileInView="animate"
               viewport={{ once: true }}
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.3 }}
+              className="group"
             >
-              <Card className="bg-gray-900/50 border-gray-800 backdrop-blur-sm h-full">
+              <Card className="bg-gray-900/50 border-gray-800 backdrop-blur-sm h-full transition-all duration-300 group-hover:scale-[1.02] group-hover:border-blue-500/50">
                 <CardContent className="p-8">
                   <div className="flex items-center gap-4 mb-6">
                     <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-2xl">
@@ -363,25 +310,18 @@ export default function AboutPage() {
             </motion.div>
 
             {/* Stats Grid */}
-            <motion.div
-              variants={staggerContainer}
-              initial="initial"
-              whileInView="animate"
-              viewport={{ once: true }}
-              className="grid grid-cols-2 gap-6"
-            >
+            <div className="grid grid-cols-2 gap-6">
               {stats.map((stat, index) => (
                 <motion.div
                   key={stat.label}
-                  variants={scaleIn}
-                  whileHover={{
-                    scale: 1.05,
-                    rotateY: 5,
-                    transition: { duration: 0.3 },
-                  }}
-                  whileTap={{ scale: 0.95 }}
+                  variants={fadeInUp}
+                  initial="initial"
+                  whileInView="animate"
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="group"
                 >
-                  <Card className="bg-gray-900/50 border-gray-800 backdrop-blur-sm text-center p-6 hover:border-blue-500/50 transition-all duration-300">
+                  <Card className="bg-gray-900/50 border-gray-800 backdrop-blur-sm text-center p-6 transition-all duration-300 group-hover:scale-[1.05] group-hover:border-blue-500/50">
                     <CardContent className="p-0">
                       <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
                         <stat.icon className="w-8 h-8 text-white" />
@@ -394,14 +334,14 @@ export default function AboutPage() {
                   </Card>
                 </motion.div>
               ))}
-            </motion.div>
+            </div>
           </div>
 
           {/* Skills Section */}
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            variants={fadeInUp}
+            initial="initial"
+            whileInView="animate"
             viewport={{ once: true }}
             className="mb-20"
           >
@@ -431,83 +371,57 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <motion.div
-              variants={staggerContainer}
-              initial="initial"
-              whileInView="animate"
-              viewport={{ once: true, margin: "-100px" }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-            >
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {filteredSkills.map((skill, index) => (
                 <motion.div
                   key={skill.name}
                   variants={fadeInUp}
-                  whileHover={{
-                    scale: 1.05,
-                    rotateY: 5,
-                    transition: { duration: 0.3 },
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                  onHoverStart={() => setHoveredSkill(skill.name)}
-                  onHoverEnd={() => setHoveredSkill(null)}
+                  initial="initial"
+                  whileInView="animate"
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ delay: index * 0.1 }}
                   className="group relative"
                 >
-                  <Card className="bg-gray-900/50 border-gray-800 hover:border-blue-500/50 transition-all duration-300 backdrop-blur-sm overflow-hidden h-full hover:shadow-xl">
+                  <Card className="bg-gray-900/50 border-gray-800 transition-all duration-300 backdrop-blur-sm overflow-hidden h-full group-hover:border-blue-500/50 group-hover:shadow-xl">
                     <CardContent className="p-6 text-center relative">
-                      <motion.div
-                        animate={{
-                          rotateY: hoveredSkill === skill.name ? 360 : 0,
-                          scale: hoveredSkill === skill.name ? 1.1 : 1,
-                        }}
-                        transition={{ duration: 0.6 }}
-                        className={`w-16 h-16 mx-auto mb-4 bg-gradient-to-br ${skill.color} rounded-full flex items-center justify-center`}
-                      >
+                      <div className={`w-16 h-16 mx-auto mb-4 bg-gradient-to-br ${skill.color} rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110`}>
                         <skill.icon className="w-8 h-8 text-white" />
-                      </motion.div>
-                      <motion.h3 className="font-semibold text-white mb-2" whileHover={{ scale: 1.05 }}>
+                      </div>
+                      <h3 className="font-semibold text-white mb-2 transition-transform duration-200 group-hover:scale-105">
                         {skill.name}
-                      </motion.h3>
+                      </h3>
                       <div className="mb-3">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${skill.level}%` }}
-                          transition={{ duration: 1.5, delay: index * 0.1 }}
-                          className="h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mb-2"
-                        />
+                        <div className="h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mb-2 overflow-hidden">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            whileInView={{ width: `${skill.level}%` }}
+                            transition={{ duration: 1, delay: index * 0.1 }}
+                            className="h-full bg-gradient-to-r from-blue-500 to-purple-500"
+                          />
+                        </div>
                         <span className="text-xs text-gray-400">{skill.level}% Proficiency</span>
                       </div>
-                      <motion.div whileHover={{ scale: 1.1 }} transition={{ duration: 0.2 }}>
-                        <Badge variant="secondary" className="bg-gray-800 text-gray-300 mb-2">
-                          {skill.category}
-                        </Badge>
-                      </motion.div>
+                      <Badge variant="secondary" className="bg-gray-800 text-gray-300 mb-2 transition-transform duration-200 group-hover:scale-110">
+                        {skill.category}
+                      </Badge>
                       <p className="text-xs text-blue-400">{skill.experience}</p>
 
-                      {/* Enhanced Hover Description */}
-                      <motion.div
-                        initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                        animate={{
-                          opacity: hoveredSkill === skill.name ? 1 : 0,
-                          y: hoveredSkill === skill.name ? 0 : 20,
-                          scale: hoveredSkill === skill.name ? 1 : 0.8,
-                        }}
-                        transition={{ duration: 0.3 }}
-                        className="absolute inset-0 bg-gradient-to-br from-blue-600/95 to-purple-600/95 backdrop-blur-sm flex items-center justify-center p-4 rounded-lg"
-                      >
+                      {/* Simplified Hover Description */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/95 to-purple-600/95 backdrop-blur-sm flex items-center justify-center p-4 rounded-lg opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                         <p className="text-white text-sm text-center">{skill.description}</p>
-                      </motion.div>
+                      </div>
                     </CardContent>
                   </Card>
                 </motion.div>
               ))}
-            </motion.div>
+            </div>
           </motion.div>
 
           {/* Timeline Section */}
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            variants={fadeInUp}
+            initial="initial"
+            whileInView="animate"
             viewport={{ once: true }}
           >
             <div className="text-center mb-12">
@@ -521,59 +435,50 @@ export default function AboutPage() {
               <motion.div
                 initial={{ scaleY: 0 }}
                 whileInView={{ scaleY: 1 }}
-                transition={{ duration: 1.5, ease: "easeInOut" }}
+                transition={{ duration: 1, ease: "easeInOut" }}
                 className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-blue-500 to-purple-500 rounded-full origin-top"
               />
               {timeline.map((item, index) => (
                 <motion.div
                   key={index}
-                  variants={index % 2 === 0 ? slideInLeft : slideInRight}
+                  variants={fadeInUp}
                   initial="initial"
                   whileInView="animate"
                   viewport={{ once: true, margin: "-50px" }}
-                  whileHover={{ scale: 1.02 }}
+                  transition={{ delay: index * 0.2 }}
                   className={`flex items-center mb-12 ${index % 2 === 0 ? "flex-row" : "flex-row-reverse"}`}
                 >
                   <div className={`w-1/2 ${index % 2 === 0 ? "pr-8 text-right" : "pl-8"}`}>
-                    <motion.div whileHover={{ y: -5 }} transition={{ duration: 0.3 }}>
-                      <Card className="bg-gray-900/50 border-gray-800 backdrop-blur-sm hover:border-blue-500/50 transition-all duration-300 hover:shadow-lg">
+                    <div className="group">
+                      <Card className="bg-gray-900/50 border-gray-800 backdrop-blur-sm transition-all duration-300 group-hover:border-blue-500/50 group-hover:shadow-lg group-hover:-translate-y-1">
                         <CardContent className="p-6">
-                          <motion.div className="flex items-center gap-2 mb-3" whileHover={{ scale: 1.05 }}>
+                          <div className="flex items-center gap-2 mb-3">
                             <item.icon className="text-blue-400" size={18} />
                             <Badge className={`bg-gradient-to-r ${item.color} text-white`}>{item.year}</Badge>
-                          </motion.div>
-                          <motion.h3
-                            className="text-xl font-semibold text-white mb-2"
-                            whileHover={{ x: index % 2 === 0 ? -5 : 5 }}
-                          >
+                          </div>
+                          <h3 className="text-xl font-semibold text-white mb-2">
                             {item.title}
-                          </motion.h3>
+                          </h3>
                           <p className="text-blue-400 mb-2 font-medium">{item.company}</p>
                           <p className="text-gray-400 text-sm leading-relaxed">{item.description}</p>
-                          <motion.div whileHover={{ scale: 1.1 }} transition={{ duration: 0.2 }}>
-                            <Badge
-                              variant="outline"
-                              className={`mt-3 ${
-                                item.type === "work"
-                                  ? "border-green-500 text-green-400"
-                                  : item.type === "education"
-                                    ? "border-blue-500 text-blue-400"
-                                    : "border-orange-500 text-orange-400"
-                              }`}
-                            >
-                              {item.type}
-                            </Badge>
-                          </motion.div>
+                          <Badge
+                            variant="outline"
+                            className={`mt-3 ${
+                              item.type === "work"
+                                ? "border-green-500 text-green-400"
+                                : item.type === "education"
+                                  ? "border-blue-500 text-blue-400"
+                                  : "border-orange-500 text-orange-400"
+                            }`}
+                          >
+                            {item.type}
+                          </Badge>
                         </CardContent>
                       </Card>
-                    </motion.div>
+                    </div>
                   </div>
                   <div className="relative">
-                    <motion.div
-                      variants={scaleIn}
-                      whileHover={{ scale: 1.2 }}
-                      className={`w-6 h-6 bg-gradient-to-r ${item.color} rounded-full border-4 border-black z-10 relative`}
-                    />
+                    <div className={`w-6 h-6 bg-gradient-to-r ${item.color} rounded-full border-4 border-black z-10 relative transition-transform duration-300 group-hover:scale-120`} />
                   </div>
                   <div className="w-1/2" />
                 </motion.div>
@@ -582,6 +487,6 @@ export default function AboutPage() {
           </motion.div>
         </div>
       </section>
-    </motion.div>
+    </div>
   )
 }

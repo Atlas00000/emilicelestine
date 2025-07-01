@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 
 interface Particle {
   x: number
@@ -15,6 +15,7 @@ interface Particle {
 export default function ParticleBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationId = useRef<number>()
+  const [isPaused, setIsPaused] = useState(false)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -31,36 +32,29 @@ export default function ParticleBackground() {
 
     const random = (min: number, max: number) => Math.random() * (max - min) + min
 
-    const isDarkMode = () => {
-      return document.documentElement.classList.contains("dark")
-    }
-
     /* ---------- Setup ---------- */
     resizeCanvas()
 
-    const getColors = () => {
-      return isDarkMode()
-        ? ["#3b82f6", "#8b5cf6", "#06b6d4", "#10b981"] // Dark mode colors
-        : ["#60a5fa", "#a78bfa", "#22d3ee", "#34d399"] // Light mode colors (slightly lighter)
-    }
+    const colors = ["#3b82f6", "#8b5cf6", "#06b6d4", "#10b981"] // Dark theme colors only
 
-    const particles: Particle[] = Array.from({ length: 80 }).map<Particle>(() => ({
+    const particles: Particle[] = Array.from({ length: 30 }).map<Particle>(() => ({
       x: random(0, canvas.width),
       y: random(0, canvas.height),
-      vx: random(-0.4, 0.4),
-      vy: random(-0.4, 0.4),
-      size: random(0.5, 2.5),
-      opacity: isDarkMode() ? random(0.1, 0.4) : random(0.05, 0.2), // Lighter in light mode
-      color: getColors()[Math.floor(Math.random() * getColors().length)],
+      vx: random(-0.3, 0.3),
+      vy: random(-0.3, 0.3),
+      size: random(0.5, 2),
+      opacity: random(0.1, 0.3),
+      color: colors[Math.floor(Math.random() * colors.length)],
     }))
 
     /* ---------- Animation ---------- */
     const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      if (isPaused) {
+        animationId.current = requestAnimationFrame(draw)
+        return
+      }
 
-      // Update colors based on current theme
-      const currentColors = getColors()
-      const currentOpacityMultiplier = isDarkMode() ? 1 : 0.5
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       particles.forEach((p) => {
         // Move
@@ -73,15 +67,10 @@ export default function ParticleBackground() {
         if (p.y < 0) p.y = canvas.height
         if (p.y > canvas.height) p.y = 0
 
-        // Update color occasionally to match theme
-        if (Math.random() < 0.001) {
-          p.color = currentColors[Math.floor(Math.random() * currentColors.length)]
-        }
-
         // Draw
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
-        ctx.fillStyle = `${p.color}${Math.round(p.opacity * currentOpacityMultiplier * 255)
+        ctx.fillStyle = `${p.color}${Math.round(p.opacity * 255)
           .toString(16)
           .padStart(2, "0")}`
         ctx.fill()
@@ -90,22 +79,23 @@ export default function ParticleBackground() {
       animationId.current = requestAnimationFrame(draw)
     }
 
+    // Pause animation when scrolling
+    const handleScroll = () => {
+      setIsPaused(true)
+      setTimeout(() => setIsPaused(false), 100)
+    }
+
     animationId.current = requestAnimationFrame(draw)
     window.addEventListener("resize", resizeCanvas)
-
-    // Listen for theme changes
-    const observer = new MutationObserver(() => {
-      // Theme changed, particles will update their colors gradually
-    })
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] })
+    window.addEventListener("scroll", handleScroll, { passive: true })
 
     /* ---------- Cleanup ---------- */
     return () => {
       if (animationId.current) cancelAnimationFrame(animationId.current)
       window.removeEventListener("resize", resizeCanvas)
-      observer.disconnect()
+      window.removeEventListener("scroll", handleScroll)
     }
-  }, [])
+  }, [isPaused])
 
-  return <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none transition-opacity duration-300" />
+  return <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none" />
 }

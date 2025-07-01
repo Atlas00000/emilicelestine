@@ -23,7 +23,7 @@ export default function HomePage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false)
-    }, 2500)
+    }, 1500)
 
     return () => clearTimeout(timer)
   }, [])
@@ -33,7 +33,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground relative overflow-x-hidden transition-colors duration-300">
+    <div className="min-h-screen bg-black text-white relative overflow-x-hidden">
       <ParticleBackground />
       <SmoothScroll />
       <Navigation />

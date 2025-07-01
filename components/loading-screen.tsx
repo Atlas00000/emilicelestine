@@ -7,18 +7,18 @@ const LoadingScreen = () => {
     <motion.div
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-      className="fixed inset-0 bg-background flex items-center justify-center z-50 transition-colors duration-300"
+      transition={{ duration: 0.3 }}
+      className="fixed inset-0 bg-black flex items-center justify-center z-50"
     >
       <div className="text-center">
         {/* Logo Animation */}
         <motion.div
           initial={{ scale: 0.5, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mb-8"
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="mb-6"
         >
-          <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center font-bold text-white text-3xl mx-auto">
+          <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center font-bold text-white text-2xl mx-auto">
             CE
           </div>
         </motion.div>
@@ -27,13 +27,13 @@ const LoadingScreen = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="mb-8"
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mb-6"
         >
-          <h2 className="text-2xl font-semibold text-foreground mb-2 transition-colors duration-300">
+          <h2 className="text-xl font-semibold text-white mb-2">
             Celestine Emili
           </h2>
-          <p className="text-muted-foreground transition-colors duration-300">Loading portfolio...</p>
+          <p className="text-gray-400">Loading portfolio...</p>
         </motion.div>
 
         {/* Loading Animation */}
@@ -46,11 +46,11 @@ const LoadingScreen = () => {
                 opacity: [0.5, 1, 0.5],
               }}
               transition={{
-                duration: 1.5,
+                duration: 1.2,
                 repeat: Number.POSITIVE_INFINITY,
-                delay: index * 0.2,
+                delay: index * 0.15,
               }}
-              className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"
+              className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"
             />
           ))}
         </div>
@@ -59,8 +59,8 @@ const LoadingScreen = () => {
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: "100%" }}
-          transition={{ duration: 2, ease: "easeInOut" }}
-          className="mt-8 h-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mx-auto max-w-xs"
+          transition={{ duration: 1.5, ease: "easeInOut" }}
+          className="mt-6 h-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mx-auto max-w-xs"
         />
       </div>
     </motion.div>
