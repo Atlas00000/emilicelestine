@@ -28,6 +28,7 @@ import ParticleBackground from "@/components/particle-background"
 import Link from "next/link"
 import { useRef } from "react"
 import { projects, categories, filterProjects, sortProjects, type Project } from "@/lib/projects-data"
+import OptimizedImage from "@/components/optimized-image"
 
 export default function ProjectsPage() {
   const [selectedCategory, setSelectedCategory] = useState("All")
@@ -378,10 +379,13 @@ export default function ProjectsPage() {
                   <motion.div variants={cardHoverVariants}>
                     <Card className="bg-white/70 dark:bg-gray-900/70 border-gray-200 dark:border-gray-800 hover:border-blue-300 dark:hover:border-blue-500/50 transition-all duration-300 backdrop-blur-sm h-full overflow-hidden shadow-lg hover:shadow-xl">
                       <div className="relative overflow-hidden">
-                        <motion.img
+                        <OptimizedImage
                           src={project.image || "/placeholder.svg"}
                           alt={project.name}
-                          className="w-full h-48 object-cover"
+                          className="w-full h-48"
+                          width={400}
+                          height={192}
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                           whileHover={{ scale: 1.1 }}
                           transition={{ duration: 0.6 }}
                         />
@@ -651,14 +655,21 @@ export default function ProjectsPage() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="relative">
-                <motion.img
-                  src={selectedProject.image || "/placeholder.svg"}
-                  alt={selectedProject.name}
-                  className="w-full h-64 object-cover rounded-t-2xl"
+                <motion.div
                   initial={{ scale: 1.1 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 0.6 }}
-                />
+                >
+                  <OptimizedImage
+                    src={selectedProject.image || "/placeholder.svg"}
+                    alt={selectedProject.name}
+                    className="w-full h-64 rounded-t-2xl"
+                    width={800}
+                    height={256}
+                    sizes="(max-width: 768px) 100vw, 800px"
+                    priority={true}
+                  />
+                </motion.div>
                 <motion.button
                   onClick={() => setSelectedProject(null)}
                   className="absolute top-4 right-4 bg-black/50 text-white rounded-full p-2 hover:bg-black/70 transition-colors backdrop-blur-sm"

@@ -1,5 +1,5 @@
 interface LoadingSkeletonProps {
-  type?: "card" | "grid" | "timeline" | "stats" | "profile" | "skills" | "header" | "contact"
+  type?: "card" | "grid" | "timeline" | "stats" | "profile" | "skills" | "header" | "contact" | "projects"
   className?: string
 }
 
@@ -129,6 +129,61 @@ const LoadingSkeleton = ({ type = "card", className = "" }: LoadingSkeletonProps
               <div key={i} className="flex items-center gap-3">
                 <div className="w-4 h-4 bg-gray-700 rounded"></div>
                 <div className="h-4 bg-gray-700 rounded w-1/3"></div>
+              </div>
+            ))}
+          </div>
+        )
+      
+      case "projects":
+        return (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="bg-white/70 dark:bg-gray-900/70 border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden shadow-lg animate-pulse">
+                {/* Image Skeleton */}
+                <div className="relative overflow-hidden">
+                  <div className="w-full h-48 bg-gray-700"></div>
+                  
+                  {/* Status Badge Skeleton */}
+                  <div className="absolute top-4 right-4">
+                    <div className="w-16 h-6 bg-gray-600 rounded-full"></div>
+                  </div>
+                  
+                  {/* Year Badge Skeleton */}
+                  <div className="absolute top-4 left-4">
+                    <div className="w-12 h-6 bg-gray-600 rounded-full"></div>
+                  </div>
+                </div>
+
+                {/* Content Skeleton */}
+                <div className="p-6">
+                  {/* Title and Link Skeleton */}
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="h-6 bg-gray-700 rounded w-3/4"></div>
+                    <div className="w-6 h-6 bg-gray-700 rounded"></div>
+                  </div>
+
+                  {/* Description Skeleton */}
+                  <div className="space-y-2 mb-4">
+                    <div className="h-4 bg-gray-700 rounded"></div>
+                    <div className="h-4 bg-gray-700 rounded w-5/6"></div>
+                    <div className="h-4 bg-gray-700 rounded w-4/6"></div>
+                  </div>
+
+                  {/* Tech Stack Skeleton */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {[1, 2, 3].map((tech) => (
+                      <div key={tech} className="w-16 h-6 bg-gray-700 rounded-full"></div>
+                    ))}
+                    <div className="w-8 h-6 bg-gray-700 rounded-full"></div>
+                  </div>
+
+                  {/* Categories Skeleton */}
+                  <div className="flex flex-wrap gap-1">
+                    {[1, 2].map((cat) => (
+                      <div key={cat} className="w-20 h-5 bg-gray-700 rounded-full"></div>
+                    ))}
+                  </div>
+                </div>
               </div>
             ))}
           </div>

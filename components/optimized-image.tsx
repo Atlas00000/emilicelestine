@@ -1,85 +1,62 @@
 "use client"
 
 import Image from "next/image"
+import { motion } from "framer-motion"
 import { useState } from "react"
 
 interface OptimizedImageProps {
   src: string
   alt: string
+  className?: string
   width?: number
   height?: number
-  fill?: boolean
-  className?: string
   priority?: boolean
   sizes?: string
-  placeholder?: "blur" | "empty"
-  blurDataURL?: string
-  fallback?: React.ReactNode
-  onLoad?: () => void
-  onError?: () => void
+  whileHover?: any
+  transition?: any
+  onClick?: () => void
 }
 
-const OptimizedImage = ({
+export default function OptimizedImage({
   src,
   alt,
-  width,
-  height,
-  fill = false,
   className = "",
+  width = 400,
+  height = 300,
   priority = false,
-  sizes = "100vw",
-  placeholder = "empty",
-  blurDataURL,
-  fallback,
-  onLoad,
-  onError
-}: OptimizedImageProps) => {
+  sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",
+  whileHover,
+  transition,
+  onClick,
+}: OptimizedImageProps) {
   const [isLoading, setIsLoading] = useState(true)
-  const [hasError, setHasError] = useState(false)
-
-  const handleLoad = () => {
-    setIsLoading(false)
-    onLoad?.()
-  }
-
-  const handleError = () => {
-    setIsLoading(false)
-    setHasError(true)
-    onError?.()
-  }
-
-  // Show fallback if error or no image
-  if (hasError || !src) {
-    return fallback ? <>{fallback}</> : null
-  }
 
   return (
-    <div className={`relative ${className}`}>
+    <motion.div
+      className={`relative overflow-hidden ${className}`}
+      whileHover={whileHover}
+      transition={transition}
+      onClick={onClick}
+    >
       <Image
         src={src}
         alt={alt}
         width={width}
         height={height}
-        fill={fill}
-        className={`transition-opacity duration-300 ${
+        className={`object-cover transition-opacity duration-300 ${
           isLoading ? "opacity-0" : "opacity-100"
         }`}
         priority={priority}
         sizes={sizes}
-        placeholder={placeholder}
-        blurDataURL={blurDataURL}
-        onLoad={handleLoad}
-        onError={handleError}
         quality={85}
-        loading={priority ? "eager" : "lazy"}
+        placeholder="blur"
+        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+        onLoad={() => setIsLoading(false)}
+        onError={() => setIsLoading(false)}
       />
-      
-      {/* Loading skeleton */}
       {isLoading && (
-        <div className="absolute inset-0 bg-gray-700 animate-pulse rounded" />
+        <div className="absolute inset-0 bg-gray-200 dark:bg-gray-800 animate-pulse" />
       )}
-    </div>
+    </motion.div>
   )
-}
-
-export default OptimizedImage 
+} 
