@@ -1,19 +1,23 @@
 "use client"
 
-import { useState, useEffect, useRef, ReactNode } from "react"
+import { useState, useRef, useEffect, ReactNode } from "react"
 import { motion } from "framer-motion"
 
 interface LazySectionProps {
   children: ReactNode
-  threshold?: number
   className?: string
+  threshold?: number
+  rootMargin?: string
+  fallback?: ReactNode
 }
 
-export default function LazySection({ 
+const LazySection = ({ 
   children, 
+  className = "", 
   threshold = 0.1, 
-  className = "" 
-}: LazySectionProps) {
+  rootMargin = "50px",
+  fallback = null 
+}: LazySectionProps) => {
   const [isVisible, setIsVisible] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -28,7 +32,10 @@ export default function LazySection({
           observer.disconnect()
         }
       },
-      { threshold }
+      {
+        threshold,
+        rootMargin,
+      }
     )
 
     if (ref.current) {
@@ -36,27 +43,34 @@ export default function LazySection({
     }
 
     return () => observer.disconnect()
-  }, [threshold])
+  }, [threshold, rootMargin])
 
   if (!isVisible) {
     return (
-      <div ref={ref} className={`min-h-[200px] ${className}`}>
-        <div className="flex items-center justify-center h-full">
-          <div className="w-8 h-8 border-2 border-gray-600 border-t-blue-500 rounded-full animate-spin"></div>
-        </div>
+      <div ref={ref} className={className}>
+        {fallback}
+      </div>
+    )
+  }
+
+  if (!isLoaded) {
+    return (
+      <div className={className}>
+        {fallback}
       </div>
     )
   }
 
   return (
     <motion.div
-      ref={ref}
       initial={{ opacity: 0, y: 20 }}
-      animate={isLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
       className={className}
     >
       {children}
     </motion.div>
   )
-} 
+}
+
+export default LazySection 
