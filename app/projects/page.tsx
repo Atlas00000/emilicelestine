@@ -1,6 +1,9 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
+
+// Force dynamic rendering to avoid SSR issues with hooks
+export const dynamic = 'force-dynamic'
 import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
 import {
   ExternalLink,

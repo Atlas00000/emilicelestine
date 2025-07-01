@@ -3,6 +3,9 @@
 import type React from "react"
 
 import { useState } from "react"
+
+// Force dynamic rendering to avoid SSR issues with hooks
+export const dynamic = 'force-dynamic'
 import { motion } from "framer-motion"
 import {
   Mail,

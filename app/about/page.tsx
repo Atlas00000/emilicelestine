@@ -1,6 +1,9 @@
 "use client"
 
 import { useState, useRef, useEffect, useCallback, useMemo, lazy, Suspense } from "react"
+
+// Force dynamic rendering to avoid SSR issues with hooks
+export const dynamic = 'force-dynamic'
 import { motion, useInView } from "framer-motion"
 import Image from "next/image"
 import {

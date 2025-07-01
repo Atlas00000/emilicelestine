@@ -57,7 +57,7 @@ const TestimonialsSection = () => {
     },
     {
       id: 5,
-      name: "David Chen",
+      name: "Maxwell Maduka",
       role: "CTO",
       company: "Terrahaptix",
       image: "/placeholder.svg?height=80&width=80",
