@@ -6,7 +6,10 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "analyze-css": "node scripts/purge-css.js",
+    "build:optimized": "ANALYZE=true next build",
+    "analyze": "node scripts/analyze-bundle.js"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",
