@@ -126,10 +126,10 @@ const ProfessionalBioSection = () => {
                   <Link href="/projects">
                     <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 w-full sm:w-auto touch-manipulation">
                       <span className="flex items-center">
-                        View My Work
-                        <ArrowRight className="ml-2" size={16} />
+                    View My Work
+                    <ArrowRight className="ml-2" size={16} />
                       </span>
-                    </Button>
+                  </Button>
                   </Link>
                 </div>
               </CardContent>
@@ -204,12 +204,12 @@ const ProfessionalBioSection = () => {
                 {/* Desktop layout */}
                 <div className={`hidden md:block w-5/12 ${index % 2 === 0 ? "pr-8 text-right" : "pl-8"}`}>
                   <motion.div whileHover={{ y: -5 }} transition={{ duration: 0.3 }}>
-                    <Card className="bg-gray-900/50 border-gray-800 backdrop-blur-sm hover:border-blue-500/50 transition-all duration-300">
-                      <CardContent className="p-4">
+                  <Card className="bg-gray-900/50 border-gray-800 backdrop-blur-sm hover:border-blue-500/50 transition-all duration-300">
+                    <CardContent className="p-4">
                         <Badge className="bg-blue-600 text-white mb-2 text-xs">{item.year}</Badge>
                         <p className="text-gray-300 text-sm leading-relaxed">{item.event}</p>
-                      </CardContent>
-                    </Card>
+                    </CardContent>
+                  </Card>
                   </motion.div>
                 </div>
 

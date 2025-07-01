@@ -38,11 +38,11 @@ const HeroSection = () => {
 
   useEffect(() => {
     if (!isMobile) {
-      const handleMouseMove = (e: MouseEvent) => {
-        setMousePosition({ x: e.clientX, y: e.clientY })
-      }
-      window.addEventListener("mousemove", handleMouseMove)
-      return () => window.removeEventListener("mousemove", handleMouseMove)
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY })
+    }
+    window.addEventListener("mousemove", handleMouseMove)
+    return () => window.removeEventListener("mousemove", handleMouseMove)
     }
   }, [isMobile])
 
@@ -101,12 +101,12 @@ const HeroSection = () => {
 
       {/* Interactive Background Elements (disabled on mobile) */}
       {!isMobile && (
-        <motion.div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: `radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(59, 130, 246, 0.1), transparent 40%)`,
-          }}
-        />
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(59, 130, 246, 0.1), transparent 40%)`,
+        }}
+      />
       )}
 
       {/* Floating Geometric Shapes (reduced on mobile) */}
@@ -257,9 +257,9 @@ const HeroSection = () => {
               <social.icon size={20} />
             </motion.a>
           ))}
-        </motion.div>
+      </motion.div>
 
-        {/* Scroll Indicator */}
+      {/* Scroll Indicator */}
         <motion.div
           variants={itemVariants}
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
@@ -272,13 +272,13 @@ const HeroSection = () => {
           >
             <span className="text-sm font-medium">Scroll to explore</span>
             <div className="w-6 h-10 border-2 border-gray-400 dark:border-gray-600 rounded-full flex justify-center group transition-colors duration-300">
-              <motion.div
-                animate={{ y: [0, 12, 0] }}
+          <motion.div
+            animate={{ y: [0, 12, 0] }}
                 transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-                className="w-1 h-3 bg-gray-500 dark:bg-gray-400 rounded-full mt-2 group-hover:bg-blue-500 dark:group-hover:bg-blue-400 transition-colors duration-300"
-              />
+            className="w-1 h-3 bg-gray-500 dark:bg-gray-400 rounded-full mt-2 group-hover:bg-blue-500 dark:group-hover:bg-blue-400 transition-colors duration-300"
+          />
             </div>
-          </motion.div>
+        </motion.div>
         </motion.div>
       </motion.div>
     </section>

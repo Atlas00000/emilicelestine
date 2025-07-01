@@ -141,14 +141,14 @@ const Navigation = () => {
                   </Link>
                 ))}
                 <div className="pt-2">
-                  <Link href="/contact">
-                    <Button
-                      onClick={() => setIsMobileMenuOpen(false)}
+                <Link href="/contact">
+                  <Button
+                    onClick={() => setIsMobileMenuOpen(false)}
                       className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-4 rounded-lg font-medium text-base touch-manipulation"
-                    >
-                      Book a Call
-                    </Button>
-                  </Link>
+                  >
+                    Book a Call
+                  </Button>
+                </Link>
                 </div>
               </div>
             </motion.div>
