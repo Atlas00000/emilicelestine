@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ExternalLink, Github, Filter, Search, Eye, Star, Calendar, Code, Users, Code2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -11,16 +11,23 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from "next/link"
 import { projects, categories, filterProjects, type Project } from "@/lib/projects-data"
 import OptimizedImage from "@/components/optimized-image"
+import VirtualProjectsGrid from "@/components/virtual-projects-grid"
 
 const ProjectsSection = () => {
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [searchQuery, setSearchQuery] = useState("")
   const [hoveredProject, setHoveredProject] = useState<string | null>(null)
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+  const [enableVirtualScroll, setEnableVirtualScroll] = useState(false)
 
   const filteredProjects = useMemo(() => {
     return filterProjects(projects, selectedCategory, searchQuery)
   }, [selectedCategory, searchQuery])
+
+  // Enable virtual scrolling when there are many projects
+  useEffect(() => {
+    setEnableVirtualScroll(filteredProjects.length > 8)
+  }, [filteredProjects.length])
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -135,15 +142,25 @@ const ProjectsSection = () => {
 
         {/* Projects Grid */}
         <AnimatePresence mode="wait">
-          <motion.div
-            key={selectedCategory + searchQuery}
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {filteredProjects.map((project, index) => (
+          {enableVirtualScroll ? (
+            <VirtualProjectsGrid
+              projects={filteredProjects}
+              selectedProject={selectedProject}
+              setSelectedProject={setSelectedProject}
+              hoveredProject={hoveredProject}
+              setHoveredProject={setHoveredProject}
+              viewMode="grid"
+            />
+          ) : (
+            <motion.div
+              key={selectedCategory + searchQuery}
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+            >
+              {filteredProjects.map((project, index) => (
               <motion.div
                 key={project.id}
                 variants={itemVariants}
@@ -335,7 +352,8 @@ const ProjectsSection = () => {
                 </motion.div>
               </motion.div>
             ))}
-          </motion.div>
+            </motion.div>
+          )}
         </AnimatePresence>
 
         {filteredProjects.length === 0 && (
