@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import React, { useState, useEffect, Suspense } from "react"
 
 // Force dynamic rendering to avoid SSR issues with hooks
 export const dynamic = 'force-dynamic'
@@ -43,10 +43,10 @@ export default function HomePage() {
       <main>
         <HeroSection />
         <ProfessionalBioSection />
+        <ProjectsSection />
         <TechStackSection />
         <AboutSection />
         <ServicesSection />
-        <ProjectsSection />
         <PublicationsSection />
         <TestimonialsSection />
         <CommunitySection />

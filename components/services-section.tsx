@@ -81,7 +81,7 @@ const ServicesSection = () => {
       description: "End-to-end web applications with modern frameworks and best practices",
       features: ["React/Next.js Frontend", "Python/Node.js Backend", "Database Design", "API Development"],
       color: "from-blue-500 to-cyan-500",
-      price: "From $800",
+      price: "From $560",
       timeline: "4-8 weeks",
     },
     {
@@ -90,7 +90,7 @@ const ServicesSection = () => {
       description: "Cross-platform mobile applications with native performance",
       features: ["Flutter Development", "React Native", "iOS & Android", "App Store Deployment"],
       color: "from-purple-500 to-pink-500",
-      price: "From $1,200",
+      price: "From $840",
       timeline: "6-10 weeks",
     },
     {
@@ -99,7 +99,7 @@ const ServicesSection = () => {
       description: "Accounting and financial management solutions for businesses",
       features: ["Accounting Automation", "Financial Reporting", "Compliance Systems", "Data Analytics"],
       color: "from-green-500 to-teal-500",
-      price: "From $1,500",
+      price: "From $1,050",
       timeline: "8-12 weeks",
     },
     {
@@ -108,7 +108,7 @@ const ServicesSection = () => {
       description: "Transform your data into actionable business insights",
       features: ["Dashboard Development", "Data Visualization", "Predictive Analytics", "Report Automation"],
       color: "from-orange-500 to-red-500",
-      price: "From $600",
+      price: "From $420",
       timeline: "3-6 weeks",
     },
     {
@@ -117,7 +117,7 @@ const ServicesSection = () => {
       description: "Secure your applications and ensure regulatory compliance",
       features: ["Security Audits", "Compliance Implementation", "Data Protection", "Risk Assessment"],
       color: "from-red-500 to-pink-500",
-      price: "From $400",
+      price: "From $280",
       timeline: "2-4 weeks",
     },
     {
@@ -126,7 +126,7 @@ const ServicesSection = () => {
       description: "Strategic technology guidance and architecture planning",
       features: ["Architecture Review", "Technology Strategy", "Performance Optimization", "Team Training"],
       color: "from-yellow-500 to-orange-500",
-      price: "From $25/hour",
+      price: "From $18/hour",
       timeline: "Flexible",
     },
     {
@@ -135,7 +135,7 @@ const ServicesSection = () => {
       description: "Complete online store development with payment integration",
       features: ["Shopping Cart", "Payment Gateways", "Inventory Management", "Order Processing"],
       color: "from-indigo-500 to-purple-500",
-      price: "From $1,000",
+      price: "From $700",
       timeline: "6-10 weeks",
     },
     {
@@ -144,7 +144,7 @@ const ServicesSection = () => {
       description: "Customer relationship management and business automation",
       features: ["Customer Database", "Lead Management", "Sales Tracking", "Automation Workflows"],
       color: "from-emerald-500 to-green-500",
-      price: "From $900",
+      price: "From $630",
       timeline: "5-8 weeks",
     },
     {
@@ -153,7 +153,7 @@ const ServicesSection = () => {
       description: "Custom APIs and third-party service integrations",
       features: ["RESTful APIs", "GraphQL", "Third-party Integrations", "API Documentation"],
       color: "from-cyan-500 to-blue-500",
-      price: "From $500",
+      price: "From $350",
       timeline: "3-5 weeks",
     },
     {
@@ -162,7 +162,7 @@ const ServicesSection = () => {
       description: "Web applications that work like native mobile apps",
       features: ["Offline Functionality", "Push Notifications", "App-like Experience", "Cross-platform"],
       color: "from-violet-500 to-purple-500",
-      price: "From $700",
+      price: "From $490",
       timeline: "4-7 weeks",
     },
     {
@@ -171,7 +171,7 @@ const ServicesSection = () => {
       description: "Efficient database architecture and performance tuning",
       features: ["Schema Design", "Query Optimization", "Data Migration", "Performance Monitoring"],
       color: "from-slate-500 to-gray-500",
-      price: "From $400",
+      price: "From $280",
       timeline: "2-4 weeks",
     },
     {
@@ -180,7 +180,7 @@ const ServicesSection = () => {
       description: "Update and modernize existing applications",
       features: ["Code Refactoring", "Technology Migration", "Performance Upgrades", "Security Updates"],
       color: "from-amber-500 to-orange-500",
-      price: "From $800",
+      price: "From $560",
       timeline: "4-8 weeks",
     },
   ]

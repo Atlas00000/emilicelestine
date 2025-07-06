@@ -5,6 +5,8 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
+    "dev:clean": "rm -rf .next && next dev",
+    "dev:reset": "rm -rf .next node_modules/.cache && pnpm install && next dev",
     "lint": "next lint",
     "start": "next start",
     "analyze-css": "node scripts/purge-css.js",

@@ -238,7 +238,7 @@ const HeroSection = () => {
         {/* Social Links */}
         <motion.div
           variants={itemVariants}
-          className="flex items-center justify-center gap-4 mb-8 sm:mb-12"
+          className="flex items-center justify-center gap-4 mb-16 sm:mb-20"
         >
           {[
             { icon: Mail, href: "mailto:emilicelestine@gmail.com", color: "hover:text-gray-600 dark:hover:text-gray-300" },
@@ -262,7 +262,7 @@ const HeroSection = () => {
       {/* Scroll Indicator */}
         <motion.div
           variants={itemVariants}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2"
         >
           <motion.div
             animate={{ y: [0, 10, 0] }}

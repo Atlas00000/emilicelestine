@@ -7,6 +7,9 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   output: 'standalone',
+  // Improve development experience
+  reactStrictMode: true,
+  swcMinify: true,
   images: {
     formats: ['image/webp', 'image/avif'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
@@ -18,8 +21,26 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ['framer-motion', 'lucide-react'],
+    // Improve Fast Refresh
+    turbo: {
+      rules: {
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js',
+        },
+      },
+    },
   },
   webpack: (config, { dev, isServer }) => {
+    // Improve Fast Refresh in development
+    if (dev && !isServer) {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        'react-dom$': 'react-dom/profiling',
+        'scheduler/tracing': 'scheduler/tracing-profiling',
+      };
+    }
+    
     if (!dev && !isServer) {
       config.optimization.usedExports = true;
       config.optimization.sideEffects = false;

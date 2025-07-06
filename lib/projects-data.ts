@@ -14,6 +14,7 @@ export interface Project {
   impact?: string
   color: string
   featured?: boolean
+  video?: string
 }
 
 export const projects: Project[] = [
@@ -188,9 +189,59 @@ export const projects: Project[] = [
     impact: "Securing communications for 200+ organizations",
     color: "from-red-500 to-pink-600",
   },
+  {
+    id: "skye",
+    name: "Skye",
+    description: "Advanced weather monitoring and forecasting platform with real-time data visualization.",
+    longDescription: "Comprehensive weather monitoring system featuring real-time data collection, advanced forecasting algorithms, and interactive visualizations. Designed for meteorologists, researchers, and weather enthusiasts with sophisticated analytics and prediction capabilities.",
+    tech: ["React", "Node.js", "MongoDB", "Chart.js", "Weather APIs", "WebSocket"],
+    category: ["Full-Stack", "Data Science", "Analytics"],
+    url: "https://skye.vercel.app/",
+    github: "https://github.com/Atlas00000/skye",
+    image: "/projects/skye-weather.jpg",
+    status: "Live",
+    year: "2024",
+    features: [
+      "Real-time Weather Data",
+      "Advanced Forecasting",
+      "Interactive Visualizations",
+      "Historical Data Analysis",
+      "Multi-location Monitoring",
+      "Weather Alerts & Notifications",
+    ],
+    impact: "Providing accurate weather data to 10,000+ users",
+    color: "from-blue-500 to-cyan-600",
+    featured: true,
+    video: "https://youtube.com/shorts/fIXopEcXTyc",
+  },
+  {
+    id: "airviz",
+    name: "Airviz",
+    description: "Air quality monitoring and visualization platform with environmental data analytics.",
+    longDescription: "Environmental monitoring platform that tracks air quality metrics, provides real-time pollution data, and offers comprehensive analytics for environmental research and public health awareness.",
+    tech: ["React", "Node.js", "PostgreSQL", "D3.js", "IoT Sensors", "REST APIs"],
+    category: ["Full-Stack", "Environmental", "IoT"],
+    url: "https://airviz.vercel.app/",
+    github: "https://github.com/Atlas00000/airviz",
+    image: "/projects/airviz-dashboard.jpg",
+    status: "Live",
+    year: "2024",
+    features: [
+      "Real-time Air Quality Monitoring",
+      "Environmental Data Analytics",
+      "Interactive Data Visualization",
+      "Pollution Level Tracking",
+      "Health Impact Assessment",
+      "Historical Trend Analysis",
+    ],
+    impact: "Monitoring air quality across 50+ cities",
+    color: "from-green-500 to-emerald-600",
+    featured: true,
+    video: "https://youtu.be/qwSp-_yknwY",
+  },
 ]
 
-export const categories = ["All", "Full-Stack", "Frontend", "Backend", "Finance", "Healthcare", "Security", "Real Estate", "Investment", "Community", "Social Impact", "Business", "Education", "Gamification", "Crypto", "Communication"]
+export const categories = ["All", "Full-Stack", "Frontend", "Backend", "Finance", "Healthcare", "Security", "Real Estate", "Investment", "Community", "Social Impact", "Business", "Education", "Gamification", "Crypto", "Communication", "Data Science", "Analytics", "Environmental", "IoT"]
 
 // Helper functions for filtering and sorting
 export const filterProjects = (
