@@ -33,6 +33,8 @@ import { useRef } from "react"
 import { projects, categories, filterProjects, sortProjects, type Project } from "@/lib/projects-data"
 import OptimizedImage from "@/components/optimized-image"
 import VirtualProjectsGrid from "@/components/virtual-projects-grid"
+import InDevelopmentSection from "@/components/in-development-section"
+import DesignStageSection from "@/components/design-stage-section"
 
 export default function ProjectsPage() {
   const [selectedCategory, setSelectedCategory] = useState("All")
@@ -272,6 +274,7 @@ export default function ProjectsPage() {
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
                     className="bg-white/50 dark:bg-gray-900/50 border border-gray-300 dark:border-gray-700 rounded-md px-4 py-2 text-gray-900 dark:text-white focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none backdrop-blur-sm transition-all duration-300 hover:border-gray-400 dark:hover:border-gray-600 shadow-sm"
+                    aria-label="Filter by category"
                   >
                     {categories.map((category) => (
                       <option key={category} value={category} className="bg-white dark:bg-gray-900">
@@ -288,6 +291,7 @@ export default function ProjectsPage() {
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as "year" | "name" | "status")}
                     className="bg-white/50 dark:bg-gray-900/50 border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm text-gray-900 dark:text-white focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none backdrop-blur-sm transition-all duration-300 shadow-sm"
+                    aria-label="Sort projects by"
                   >
                     <option value="year">Year</option>
                     <option value="name">Name</option>
@@ -880,6 +884,12 @@ export default function ProjectsPage() {
           </motion.div>
         )}
       </AnimatePresence>
+
+              {/* In Development Section */}
+        <InDevelopmentSection />
+
+        {/* Design Stage Section */}
+        <DesignStageSection />
     </div>
   )
 }

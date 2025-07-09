@@ -8,7 +8,7 @@ export interface Project {
   url: string
   github?: string
   image: string
-  status: "Live" | "In Development" | "Completed"
+  status: "Live" | "In Development" | "Completed" | "Design Stage"
   year: string
   features: string[]
   impact?: string
@@ -239,9 +239,125 @@ export const projects: Project[] = [
     featured: true,
     video: "https://youtu.be/qwSp-_yknwY",
   },
+  {
+    id: "biotrevase",
+    name: "Biotrevase",
+    description: "Advanced bioinformatics platform for genomic data analysis and biological research.",
+    longDescription: "Comprehensive bioinformatics platform designed for genomic data analysis, biological research, and computational biology workflows. Features advanced algorithms for sequence analysis, protein structure prediction, and biological data visualization.",
+    tech: ["React", "Python", "Django", "PostgreSQL", "BioPython", "D3.js", "AWS"],
+    category: ["Full-Stack", "Bioinformatics", "Research", "Data Science"],
+    url: "https://biotraverse.vercel.app/",
+    github: "https://github.com/Atlas00000/biotraverse-.git",
+    image: "/projects/biotrevase-dashboard.jpg",
+    status: "In Development",
+    year: "2024",
+    features: [
+      "Genomic Data Analysis",
+      "Sequence Alignment Tools",
+      "Protein Structure Prediction",
+      "Biological Data Visualization",
+      "Research Workflow Management",
+      "Collaborative Analysis Tools",
+    ],
+    impact: "Supporting cutting-edge biological research",
+    color: "from-teal-500 to-cyan-600",
+    video: "https://youtu.be/HSg5_4zmaXo",
+  },
+  {
+    id: "aerolens",
+    name: "Aerolens",
+    description: "Advanced aerial imaging and computer vision platform for drone-based applications.",
+    longDescription: "Innovative aerial imaging platform that combines drone technology with advanced computer vision algorithms for applications in agriculture, surveillance, mapping, and environmental monitoring.",
+    tech: ["React", "Python", "OpenCV", "TensorFlow", "WebRTC", "Three.js", "AWS"],
+    category: ["Full-Stack", "Computer Vision", "IoT", "AI/ML"],
+    url: "#",
+    github: "https://github.com/Atlas00000/aerolens.git",
+    image: "/projects/claritywire-dashboard.jpg", // Placeholder
+    status: "Design Stage",
+    year: "2024",
+    features: [
+      "Real-time Aerial Imaging",
+      "Computer Vision Processing",
+      "Drone Control Interface",
+      "Image Analysis & Recognition",
+      "Mapping & Surveying Tools",
+      "Environmental Monitoring",
+    ],
+    impact: "Revolutionizing aerial data collection and analysis",
+    color: "from-blue-500 to-indigo-600",
+  },
+  {
+    id: "maresim-tidalflow",
+    name: "Maresim Tidalflow",
+    description: "Oceanographic simulation platform for tidal flow modeling and marine ecosystem analysis.",
+    longDescription: "Comprehensive oceanographic simulation platform designed for modeling tidal flows, marine currents, and ecosystem dynamics. Features advanced fluid dynamics algorithms and real-time environmental data integration.",
+    tech: ["React", "Python", "NumPy", "SciPy", "WebGL", "Three.js", "Docker"],
+    category: ["Full-Stack", "Simulation", "Environmental", "Data Science"],
+    url: "#",
+    github: "https://github.com/Atlas00000/maresim-tidalflow",
+    image: "/projects/claritywire-dashboard.jpg", // Placeholder
+    status: "Design Stage",
+    year: "2024",
+    features: [
+      "Tidal Flow Simulation",
+      "Ocean Current Modeling",
+      "Marine Ecosystem Analysis",
+      "Real-time Data Visualization",
+      "Environmental Impact Assessment",
+      "Predictive Modeling Tools",
+    ],
+    impact: "Advancing marine science and environmental protection",
+    color: "from-cyan-500 to-blue-600",
+  },
+  {
+    id: "materialize-3d",
+    name: "Materialize 3D",
+    description: "3D printing and additive manufacturing platform with design optimization tools.",
+    longDescription: "Comprehensive 3D printing platform that combines design tools, material science, and manufacturing optimization. Features advanced modeling capabilities, material simulation, and production workflow management.",
+    tech: ["React", "Three.js", "WebGL", "Python", "Blender API", "Node.js", "MongoDB"],
+    category: ["Full-Stack", "3D Printing", "Manufacturing", "Design"],
+    url: "#",
+    github: "https://github.com/Atlas00000/materialize-3d",
+    image: "/projects/claritywire-dashboard.jpg", // Placeholder
+    status: "Design Stage",
+    year: "2024",
+    features: [
+      "3D Design & Modeling",
+      "Material Optimization",
+      "Print Simulation",
+      "Quality Control Tools",
+      "Manufacturing Workflow",
+      "Design Collaboration",
+    ],
+    impact: "Streamlining 3D printing and additive manufacturing",
+    color: "from-purple-500 to-pink-600",
+  },
+  {
+    id: "seismosphere",
+    name: "Seismosphere",
+    description: "Seismic monitoring and earthquake prediction platform with real-time data analysis.",
+    longDescription: "Advanced seismic monitoring platform that combines sensor networks, machine learning algorithms, and real-time data analysis for earthquake detection, prediction, and early warning systems.",
+    tech: ["React", "Python", "TensorFlow", "IoT", "WebSocket", "PostgreSQL", "Redis"],
+    category: ["Full-Stack", "IoT", "AI/ML", "Environmental"],
+    url: "#",
+    github: "https://github.com/Atlas00000/seismosphere",
+    image: "/projects/claritywire-dashboard.jpg", // Placeholder
+    status: "Design Stage",
+    year: "2024",
+    features: [
+      "Real-time Seismic Monitoring",
+      "Earthquake Prediction",
+      "Early Warning Systems",
+      "Sensor Network Management",
+      "Data Visualization",
+      "Risk Assessment Tools",
+    ],
+    impact: "Enhancing earthquake preparedness and safety",
+    color: "from-red-500 to-orange-600",
+  },
 ]
 
-export const categories = ["All", "Full-Stack", "Frontend", "Backend", "Finance", "Healthcare", "Security", "Real Estate", "Investment", "Community", "Social Impact", "Business", "Education", "Gamification", "Crypto", "Communication", "Data Science", "Analytics", "Environmental", "IoT"]
+export const categories = ["All", "Full-Stack", "Frontend", "Backend", "Finance", "Healthcare", "Security", "Real Estate", "Investment", "Community", "Social Impact", "Business", "Education", "Gamification", "Crypto", "Communication", "Data Science", "Analytics", "Environmental", "IoT", "Bioinformatics", "Research", "Computer Vision", "AI/ML", "Simulation", "3D Printing", "Manufacturing", "Design"]
 
 // Helper functions for filtering and sorting
 export const filterProjects = (
