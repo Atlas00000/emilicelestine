@@ -20,7 +20,9 @@ const ProjectsSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
 
   const filteredProjects = useMemo(() => {
-    return filterProjects(projects, selectedCategory, searchQuery)
+    // Only show featured projects on the homepage
+    const featuredProjects = projects.filter(project => project.featured === true)
+    return filterProjects(featuredProjects, selectedCategory, searchQuery)
   }, [selectedCategory, searchQuery])
 
   // Calculate slides - 3 projects per slide
