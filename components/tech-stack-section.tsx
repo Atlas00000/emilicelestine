@@ -39,7 +39,7 @@ const scaleIn = {
 }
 
 const TechStackSection = () => {
-  const [activeCategory, setActiveCategory] = useState("All")
+  const [activeCategory, setActiveCategory] = useState("Backend")
 
   const techStack = {
     Backend: [
@@ -73,14 +73,11 @@ const TechStackSection = () => {
     ],
   }
 
-  const categories = ["All", "Backend", "Frontend", "Mobile", "Database", "Tools"]
+  const categories = ["Backend", "Frontend", "Mobile", "Database", "Tools"]
 
-  const getAllTech = () => {
-    return Object.values(techStack).flat()
-  }
+
 
   const getFilteredTech = () => {
-    if (activeCategory === "All") return getAllTech()
     return techStack[activeCategory as keyof typeof techStack] || []
   }
 
@@ -90,7 +87,6 @@ const TechStackSection = () => {
     Mobile: Smartphone,
     Database: Database,
     Tools: Zap,
-    All: Layers,
   }
 
   return (
