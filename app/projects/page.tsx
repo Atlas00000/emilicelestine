@@ -55,7 +55,9 @@ export default function ProjectsPage() {
 
 
   const filteredProjects = useMemo(() => {
-    const filtered = filterProjects(projects, selectedCategory, searchQuery)
+    // Filter out Design Stage projects to keep them only in Conceptual Projects section
+    const nonDesignStageProjects = projects.filter(project => project.status !== "Design Stage")
+    const filtered = filterProjects(nonDesignStageProjects, selectedCategory, searchQuery)
     return sortProjects(filtered, sortBy)
   }, [selectedCategory, searchQuery, sortBy])
 
@@ -173,7 +175,7 @@ export default function ProjectsPage() {
               animate={isHeaderInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ delay: 0.4, duration: 0.8 }}
             >
-              Featured Projects
+              Live Projects
             </motion.h1>
 
             <motion.p
@@ -182,7 +184,7 @@ export default function ProjectsPage() {
               transition={{ delay: 0.6 }}
               className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed"
             >
-              A comprehensive showcase of my technical expertise and creative problem-solving across various industries,
+              A showcase of my completed and live projects demonstrating technical expertise and creative problem-solving across various industries,
               technologies, and platforms. Each project represents a unique challenge and innovative solution.
             </motion.p>
           </motion.div>
@@ -195,7 +197,7 @@ export default function ProjectsPage() {
             className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12"
           >
             {[
-              { label: "Total Projects", value: projects.length, icon: Award, color: "from-blue-500 to-cyan-500" },
+              { label: "Total Projects", value: projects.filter(p => p.status !== "Design Stage").length, icon: Award, color: "from-blue-500 to-cyan-500" },
               {
                 label: "Live Projects",
                 value: projects.filter((p) => p.status === "Live").length,
@@ -204,7 +206,7 @@ export default function ProjectsPage() {
               },
               {
                 label: "Technologies",
-                value: new Set(projects.flatMap((p) => p.tech)).size,
+                value: new Set(projects.filter(p => p.status !== "Design Stage").flatMap((p) => p.tech)).size,
                 icon: Code2,
                 color: "from-purple-500 to-pink-500",
               },
