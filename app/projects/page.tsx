@@ -59,9 +59,9 @@ export default function ProjectsPage() {
     return sortProjects(filtered, sortBy)
   }, [selectedCategory, searchQuery, sortBy])
 
-  // Enable virtual scrolling when there are many projects
+  // Virtual scrolling disabled - always use regular grid
   useEffect(() => {
-    setEnableVirtualScroll(filteredProjects.length > 12)
+    setEnableVirtualScroll(false)
   }, [filteredProjects.length])
 
   // Animation variants
@@ -369,7 +369,7 @@ export default function ProjectsPage() {
       </motion.section>
 
       {/* Enhanced Projects Grid/List */}
-      <section className="px-4 pb-20">
+      <section className="px-4 pb-8">
         <div className="max-w-7xl mx-auto">
           {/* Virtual Scrolling Performance Indicator */}
           {enableVirtualScroll && (
