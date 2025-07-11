@@ -5,6 +5,7 @@ import { useState, useMemo, useEffect } from "react"
 // Force dynamic rendering to avoid SSR issues with hooks
 export const dynamic = 'force-dynamic'
 import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion"
+import { useEnhancedInView, scrollPresets, viewportOptions } from "@/hooks/use-enhanced-scroll"
 import {
   ExternalLink,
   Github,
@@ -66,56 +67,22 @@ export default function ProjectsPage() {
     setEnableVirtualScroll(false)
   }, [filteredProjects.length])
 
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        delayChildren: 0.1,
-        staggerChildren: 0.1,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { y: 30, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        damping: 12,
-        stiffness: 200,
-      },
-    },
-  }
-
+  // Enhanced animation variants using scroll presets
+  const containerVariants = scrollPresets.staggerContainer
+  const itemVariants = scrollPresets.staggerItem
   const cardHoverVariants = {
     hover: {
-      y: -15,
-      scale: 1.03,
-      rotateY: 5,
+      y: -8,
+      scale: 1.02,
+      rotateY: 3,
       transition: {
-        type: "spring",
-        damping: 12,
-        stiffness: 400,
+        type: "spring" as const,
+        damping: 15,
+        stiffness: 300,
       },
     },
   }
-
-  const slideInVariants = {
-    hidden: { x: -60, opacity: 0 },
-    visible: {
-      x: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        damping: 12,
-        stiffness: 200,
-      },
-    },
-  }
+  const slideInVariants = scrollPresets.slideInLeft
 
   return (
           <div className="min-h-screen bg-black text-white relative overflow-x-hidden">
@@ -151,16 +118,18 @@ export default function ProjectsPage() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isHeaderInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.1 }}
+            variants={scrollPresets.fadeIn}
+            initial="hidden"
+            animate={isHeaderInView ? "visible" : "hidden"}
+            viewport={viewportOptions}
             className="text-center mb-16"
           >
             {/* Main Header */}
             <motion.div
-              initial={{ scale: 0, rotate: -180 }}
-              animate={isHeaderInView ? { scale: 1, rotate: 0 } : {}}
-              transition={{ delay: 0.3, type: "spring", damping: 12 }}
+              variants={scrollPresets.scaleIn}
+              initial="hidden"
+              animate={isHeaderInView ? "visible" : "hidden"}
+              viewport={viewportOptions}
               className="inline-block mb-6"
             >
               <Badge className="bg-blue-100 dark:bg-blue-600/20 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-500/30 px-6 py-3 text-lg">
@@ -171,17 +140,19 @@ export default function ProjectsPage() {
 
             <motion.h1
               className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={isHeaderInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ delay: 0.4, duration: 0.8 }}
+              variants={scrollPresets.scaleIn}
+              initial="hidden"
+              animate={isHeaderInView ? "visible" : "hidden"}
+              viewport={viewportOptions}
             >
               Live Projects
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0 }}
-              animate={isHeaderInView ? { opacity: 1 } : {}}
-              transition={{ delay: 0.6 }}
+              variants={scrollPresets.fadeIn}
+              initial="hidden"
+              animate={isHeaderInView ? "visible" : "hidden"}
+              viewport={viewportOptions}
               className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed"
             >
               A showcase of my completed and live projects demonstrating technical expertise and creative problem-solving across various industries,
@@ -191,9 +162,10 @@ export default function ProjectsPage() {
 
           {/* Enhanced Project Statistics */}
           <motion.div
-            variants={containerVariants}
+            variants={scrollPresets.staggerContainer}
             initial="hidden"
             animate={isHeaderInView ? "visible" : "hidden"}
+            viewport={viewportOptions}
             className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12"
           >
             {[
@@ -217,7 +189,12 @@ export default function ProjectsPage() {
                 color: "from-yellow-500 to-orange-500",
               },
             ].map((stat, index) => (
-              <motion.div key={stat.label} variants={itemVariants} whileHover={{ scale: 1.05, y: -5 }}>
+              <motion.div 
+                key={stat.label} 
+                variants={scrollPresets.staggerItem} 
+                whileHover={{ scale: 1.05, y: -5 }}
+                viewport={viewportOptions}
+              >
                 <Card className="bg-white/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-800 backdrop-blur-sm text-center p-4 hover:border-blue-300 dark:hover:border-blue-500/50 transition-all duration-300 shadow-lg hover:shadow-xl">
                   <CardContent className="p-0">
                     <motion.div
@@ -229,9 +206,10 @@ export default function ProjectsPage() {
                     </motion.div>
                     <motion.div
                       className="text-2xl font-bold text-gray-900 dark:text-white mb-1"
-                      initial={{ opacity: 0 }}
-                      animate={isHeaderInView ? { opacity: 1 } : {}}
-                      transition={{ delay: 0.8 + index * 0.1 }}
+                      variants={scrollPresets.fadeIn}
+                      initial="hidden"
+                      animate={isHeaderInView ? "visible" : "hidden"}
+                      viewport={viewportOptions}
                     >
                       {stat.value}
                     </motion.div>
@@ -244,10 +222,10 @@ export default function ProjectsPage() {
 
           {/* Enhanced Search, Filter, and Controls */}
           <motion.div
-            variants={slideInVariants}
+            variants={scrollPresets.slideInLeft}
             initial="hidden"
             animate={isHeaderInView ? "visible" : "hidden"}
-            transition={{ delay: 0.8 }}
+            viewport={viewportOptions}
             className="space-y-4 mb-12"
           >
             {/* Search and Primary Filters */}
