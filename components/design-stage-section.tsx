@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ExternalLink, Github, Eye, Calendar, Code2, Palette, Lightbulb, Sparkles, Globe, Plane, Waves, Cube, Zap, Target, Users, TrendingUp } from "lucide-react"
+import { ExternalLink, Github, Eye, Calendar, Code2, Palette, Lightbulb, Sparkles, Globe, Plane, Waves, Zap, Target, Users, TrendingUp, Box } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -65,7 +65,7 @@ const DesignStageSection = () => {
         "Export and sharing capabilities"
       ],
       tech: ["React 18", "Next.js 14", "Three.js", "TypeScript", "Tailwind CSS"],
-      icon: Cube,
+      icon: Box,
       color: "from-purple-500 to-pink-600",
       gradient: "from-purple-500/20 to-pink-500/20"
     },

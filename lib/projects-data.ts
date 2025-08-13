@@ -19,6 +19,32 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "habitat",
+    name: "Nature View - Global Wildlife Explorer",
+    description: "Interactive wildlife exploration platform with global habitat mapping, species tracking, and conservation education.",
+    longDescription:
+      "A comprehensive wildlife education and conservation platform that combines interactive mapping, species tracking, and educational content. Features global habitat exploration across Arctic, Forest, Alpine, Safari, and Coastal regions with real-time statistics, achievement systems, and conservation impact tracking designed to inspire environmental awareness and wildlife protection.",
+    tech: ["Next.js 14", "React 18", "TypeScript", "Three.js", "React Three Fiber", "Tailwind CSS", "Framer Motion"],
+    category: ["Full-Stack", "Education", "3D Graphics", "Environmental"],
+    url: "https://habitat-six.vercel.app/",
+    github: "https://github.com/Atlas00000/habitat",
+    image: "/projects/natureview.png",
+    status: "Live",
+    year: "2024",
+    features: [
+      "Global Habitat Mapping & Exploration",
+      "Species Tracking & Statistics Dashboard",
+      "Interactive Region Navigation (Arctic, Forest, Alpine, Safari, Coastal)",
+      "Achievement & Progress Tracking System",
+      "Real-time Conservation Impact Metrics",
+      "Educational Content & Wildlife Lessons",
+    ],
+    impact: "Supporting 2,341+ active users with 150+ species tracking and conservation education",
+    color: "from-emerald-500 to-green-600",
+    featured: true,
+    video: "https://habitat-six.vercel.app/",
+  },
+  {
     id: "claritywire",
     name: "ClarityWire",
     description: "Mental health platform focused on emotional support, therapy access, and community storytelling.",
@@ -357,7 +383,7 @@ export const projects: Project[] = [
   },
 ]
 
-export const categories = ["All", "Full-Stack", "Frontend", "Backend", "Finance", "Healthcare", "Security", "Real Estate", "Investment", "Community", "Social Impact", "Business", "Education", "Gamification", "Crypto", "Communication", "Data Science", "Analytics", "Environmental", "IoT", "Bioinformatics", "Research", "Computer Vision", "AI/ML", "Simulation", "3D Printing", "Manufacturing", "Design"]
+export const categories = ["All", "Full-Stack", "Frontend", "Backend", "Finance", "Healthcare", "Security", "Real Estate", "Investment", "Community", "Social Impact", "Business", "Education", "Gamification", "Crypto", "Communication", "Data Science", "Analytics", "Environmental", "IoT", "Bioinformatics", "Research", "Computer Vision", "AI/ML", "Simulation", "3D Printing", "Manufacturing", "Design", "3D Graphics"]
 
 // Helper functions for filtering and sorting
 export const filterProjects = (
