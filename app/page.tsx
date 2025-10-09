@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect, Suspense } from "react"
+import React, { useState, useEffect } from "react"
 
 // Force dynamic rendering to avoid SSR issues with hooks
 export const dynamic = 'force-dynamic'
@@ -11,12 +11,8 @@ import ProjectsSection from "@/components/projects-section"
 import ContactSection from "@/components/contact-section"
 import LoadingScreen from "@/components/loading-screen"
 import ParticleBackground from "@/components/particle-background"
-import TestimonialsSection from "@/components/testimonials-section"
 import ProfessionalBioSection from "@/components/professional-bio-section"
-import ServicesSection from "@/components/services-section"
-import PublicationsSection from "@/components/publications-section"
 import CommunitySection from "@/components/community-section"
-import LeadershipSection from "@/components/leadership-section"
 import TechStackSection from "@/components/tech-stack-section"
 import SmoothScroll from "@/components/smooth-scroll"
 
@@ -46,11 +42,7 @@ export default function HomePage() {
         <ProjectsSection />
         <TechStackSection />
         <AboutSection />
-        <ServicesSection />
-        <PublicationsSection />
-        <TestimonialsSection />
         <CommunitySection />
-        <LeadershipSection />
         <ContactSection />
       </main>
     </div>
