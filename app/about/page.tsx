@@ -1,42 +1,27 @@
 "use client"
 
-import { useState, useRef, useEffect, useCallback, useMemo, lazy, Suspense } from "react"
+import { useState, useEffect } from "react"
 
 // Force dynamic rendering to avoid SSR issues with hooks
 export const dynamic = 'force-dynamic'
-import { motion, useInView } from "framer-motion"
-import Image from "next/image"
+import { motion } from "framer-motion"
 import {
   Code,
-  Database,
-  Smartphone,
-  Globe,
-  Award,
-  Users,
-  Calendar,
-  BookOpen,
-  Briefcase,
-  GraduationCap,
   ArrowLeft,
-  Download,
-  MapPin,
-  Mail,
-  Phone,
-  Loader2,
+  Target,
 } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { EnhancedButton } from "@/components/ui/enhanced-button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import Navigation from "@/components/navigation"
-import ParticleBackground from "@/components/particle-background"
-import LazySection from "@/components/lazy-section"
-import LoadingSkeleton from "@/components/loading-skeleton"
-import OptimizedImage from "@/components/optimized-image"
+import { EnhancedNavigation } from "@/components/navigation/enhanced-navigation"
+import { GridBackground } from "@/components/effects/grid-background"
+import { ScrollProgress } from "@/components/interactive/scroll-progress"
+import LoadingScreen from "@/components/loading-screen"
 import Link from "next/link"
 
-// Lazy load heavy components
-const SkillsSection = lazy(() => import('@/components/skills-section'))
-const TimelineSection = lazy(() => import('@/components/timeline-section'))
+// Import sections from homepage
+import AboutSection from '@/components/about-section'
+import { EnhancedTechStackSection } from '@/components/tech-stack/enhanced-tech-stack-section'
 
 // Optimized animation variants - minimal imports
 const fadeInUp = {
@@ -51,201 +36,31 @@ const fadeIn = {
   transition: { duration: 0.5 }
 }
 
-// Optimized animated counter - simplified logic
-const AnimatedCounter = ({
-  end,
-  duration = 1500,
-  suffix = "",
-}: { end: number; duration?: number; suffix?: string }) => {
-  const [count, setCount] = useState(0)
-  const [isLoading, setIsLoading] = useState(true)
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-50px" })
-
-  useEffect(() => {
-    if (isInView) {
-      setIsLoading(false)
-      const startTime = Date.now()
-      const animate = () => {
-        const elapsed = Date.now() - startTime
-        const progress = Math.min(elapsed / duration, 1)
-        setCount(Math.floor(progress * end))
-        
-        if (progress < 1) {
-          requestAnimationFrame(animate)
-        }
-      }
-      requestAnimationFrame(animate)
-    }
-  }, [isInView, end, duration])
-
-  return (
-    <span ref={ref} className="font-bold">
-      {isLoading ? (
-        <Loader2 className="w-6 h-6 animate-spin inline" />
-      ) : (
-        `${count}${suffix}`
-      )}
-    </span>
-  )
-}
-
-// Optimized Stats Component with memoization
-const StatsSection = () => {
-  const stats = useMemo(() => [
-    { label: "Projects Completed", value: 7, icon: Award, suffix: "+" },
-    { label: "Technologies Mastered", value: 15, icon: Code, suffix: "+" },
-    { label: "Years Experience", value: 5, icon: Calendar, suffix: "+" },
-    { label: "Happy Clients", value: 50, icon: Users, suffix: "+" },
-  ], [])
-
-  return (
-    <div className="grid grid-cols-2 gap-6">
-      {stats.map((stat, index) => (
-        <motion.div
-          key={stat.label}
-          variants={fadeInUp}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-          transition={{ delay: index * 0.1 }}
-          className="group"
-        >
-          <Card className="bg-gray-900/50 border-gray-800 backdrop-blur-sm text-center p-6 transition-all duration-300 group-hover:scale-[1.05] group-hover:border-blue-500/50">
-            <CardContent className="p-0">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                <stat.icon className="w-8 h-8 text-white" />
-              </div>
-              <div className="text-3xl font-bold text-white mb-2">
-                <AnimatedCounter end={stat.value} suffix={stat.suffix} />
-              </div>
-              <p className="text-gray-400 text-sm">{stat.label}</p>
-            </CardContent>
-          </Card>
-        </motion.div>
-      ))}
-    </div>
-  )
-}
-
-// Optimized Profile Image Component with Next.js Image
-const ProfileImage = () => {
-  return (
-    <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-2xl relative overflow-hidden">
-      {/* Fallback to initials if no image */}
-      <span>CE</span>
-      
-      {/* Future image implementation - uncomment when image is available */}
-      {/* 
-      <OptimizedImage
-        src="/images/profile.jpg"
-        alt="Celestine Emili"
-        fill
-        className="object-cover rounded-full"
-        sizes="80px"
-        priority
-        placeholder="blur"
-        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-        fallback={
-          <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-2xl">
-            CE
-          </div>
-        }
-      />
-      */}
-    </div>
-  )
-}
-
-// Enhanced Loading component for lazy-loaded sections
-const SectionLoader = ({ sectionName }: { sectionName: string }) => (
-  <div className="flex flex-col items-center justify-center py-12 space-y-4">
-    <div className="relative">
-      <div className="w-12 h-12 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin"></div>
-      <div className="absolute inset-0 w-12 h-12 border-4 border-transparent border-t-purple-500 rounded-full animate-spin" style={{ animationDelay: '-0.5s' }}></div>
-    </div>
-    <div className="text-center">
-      <p className="text-gray-400 text-sm">Loading {sectionName}...</p>
-      <p className="text-gray-600 text-xs mt-1">Please wait while we prepare your content</p>
-    </div>
-  </div>
-)
-
-// Progress indicator component
-const LoadingProgress = ({ progress }: { progress: number }) => (
-  <div className="w-full bg-gray-800 rounded-full h-2 mb-4">
-    <motion.div
-      className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full"
-      initial={{ width: 0 }}
-      animate={{ width: `${progress}%` }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-    />
-  </div>
-)
-
 export default function AboutPage() {
-  const [loadingProgress, setLoadingProgress] = useState(0)
-  const [isPageReady, setIsPageReady] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
-  const personalInfo = useMemo(() => ({
-    name: "Celestine Emili",
-    title: "Full-Stack Developer & Financial Systems Architect",
-    location: "Lagos, Nigeria",
-    email: "emilicelestine@gmail.com",
-    phone: "+234 807 611 6744",
-    bio: "With a foundation in accounting and a deep passion for technology, I specialize in building secure, scalable, and intelligent systems across web, mobile, and financial platforms. My journey has spanned across industries—finance, healthcare, education, and community development—blending technical excellence with real-world impact.",
-  }), [])
-
-  // Simulate loading progress
   useEffect(() => {
     const timer = setTimeout(() => {
-      setLoadingProgress(100)
-      setTimeout(() => setIsPageReady(true), 500)
-    }, 1000)
+      setIsLoading(false)
+    }, 1500)
     
     return () => clearTimeout(timer)
   }, [])
 
-  const handleDownloadResume = useCallback(() => {
-    // Future implementation for resume download
-    console.log("Download resume functionality")
-  }, [])
-
-  // Show loading screen initially
-  if (!isPageReady) {
-    return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
-        <div className="text-center space-y-6 max-w-md mx-auto px-4">
-          <div className="relative">
-            <div className="w-16 h-16 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin mx-auto"></div>
-            <div className="absolute inset-0 w-16 h-16 border-4 border-transparent border-t-purple-500 rounded-full animate-spin mx-auto" style={{ animationDelay: '-0.5s' }}></div>
-          </div>
-          
-          <div>
-            <h2 className="text-2xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-              Loading About Page
-            </h2>
-            <p className="text-gray-400 text-sm mb-4">
-              Preparing your professional journey...
-            </p>
-            
-            <LoadingProgress progress={loadingProgress} />
-            
-            <div className="flex justify-center space-x-2">
-              <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
-              <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-              <div className="w-2 h-2 bg-pink-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
+  if (isLoading) {
+    return <LoadingScreen />
   }
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-x-hidden">
-      <ParticleBackground />
-      <Navigation />
+      {/* Global Grid Background */}
+      <GridBackground />
+
+      {/* Enhanced Interactive Elements */}
+      <ScrollProgress />
+      
+      {/* Enhanced Navigation */}
+      <EnhancedNavigation />
 
       {/* Header Section */}
       <section className="pt-24 pb-12 px-4">
@@ -257,111 +72,119 @@ export default function AboutPage() {
             className="flex items-center gap-4 mb-8"
           >
             <Link href="/">
-              <Button variant="outline" size="sm" className="border-gray-700 text-gray-300 hover:bg-gray-800">
+              <EnhancedButton variant="outline" size="sm">
                 <ArrowLeft className="mr-2" size={16} />
                 Back to Home
-              </Button>
+              </EnhancedButton>
             </Link>
-          </motion.div>
-
-          <motion.div
-            variants={fadeInUp}
-            initial="initial"
-            animate="animate"
-            className="text-center mb-16"
-          >
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-              About Me
-            </h1>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-              Discover my journey, expertise, and passion for creating innovative solutions that bridge technology and
-              business needs.
-            </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Personal Introduction */}
-      <section className="px-4 pb-20">
+      {/* Main Content */}
+      <section className="px-4 pb-20 pt-4">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 mb-20">
-            {/* Personal Info Card */}
-            <motion.div
-              variants={fadeInUp}
-              initial="initial"
-              whileInView="animate"
-              viewport={{ once: true }}
-              className="group"
-            >
-              <Card className="bg-gray-900/50 border-gray-800 backdrop-blur-sm h-full transition-all duration-300 group-hover:scale-[1.02] group-hover:border-blue-500/50">
-                <CardContent className="p-8">
-                  <div className="flex items-center gap-4 mb-6">
-                    <ProfileImage />
-                    <div>
-                      <h2 className="text-2xl font-bold text-white">{personalInfo.name}</h2>
-                      <p className="text-blue-400 font-medium">{personalInfo.title}</p>
-                    </div>
+          {/* My Development Approach Section */}
+          <motion.div
+            variants={fadeInUp}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            className="mb-20"
+          >
+            <Card className="bg-gray-900/40 border-white/10 backdrop-blur-xl">
+              <CardContent className="p-8 md:p-12">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full flex items-center justify-center">
+                    <Target className="w-6 h-6 text-white" />
                   </div>
+                  <h3 className="text-2xl md:text-3xl font-bold text-white">My Development Approach</h3>
+                </div>
+                
+                <div className="space-y-6 text-gray-300 leading-relaxed text-base md:text-lg">
+                  <p>
+                    My development philosophy is rooted in three core principles: <span className="text-cyan-400 font-semibold">purpose-driven design</span>, <span className="text-blue-400 font-semibold">continuous learning</span>, and <span className="text-purple-400 font-semibold">collaboration-first approach</span>. Every technology choice I make serves a specific purpose, whether it's optimizing for performance, ensuring scalability, or improving developer experience. I believe that the best solutions emerge from understanding the problem deeply before jumping into implementation.
+                  </p>
+                  
+                  <p>
+                    In an industry that evolves at breakneck speed, I maintain a commitment to continuous learning. I regularly explore emerging technologies, contribute to open-source projects, and stay current with industry best practices. This dedication to growth has allowed me to master a diverse tech stack spanning frontend frameworks like React and Next.js, backend technologies including Python, Node.js, and Go, mobile development with Flutter and React Native, and various database systems including PostgreSQL, MongoDB, and Redis.
+                  </p>
+                  
+                  <p>
+                    Collaboration is at the heart of everything I do. Having served as a teacher during my NYSC program and worked in team environments, I understand that the best solutions emerge from diverse perspectives. I choose technologies that enable effective team collaboration, knowledge sharing, and maintainable codebases. I'm passionate about clean code, comprehensive documentation, and creating systems that future developers can easily understand and extend.
+                  </p>
+                  
+                  <p>
+                    My work extends beyond just writing code. I'm deeply committed to using technology for social impact, as evidenced by my projects in healthcare, education, and community development. Whether it's building mental health platforms, educational tools, or community engagement systems, I believe technology should serve humanity and make a positive difference in people's lives. This commitment to purpose-driven development is what sets my work apart and what I bring to every collaboration.
+                  </p>
+                  
+                  <p>
+                    When approaching a new project, I begin with a comprehensive analysis of the problem space. This involves understanding user needs, business objectives, technical constraints, and long-term scalability requirements. I believe in building systems that not only solve immediate problems but also adapt and evolve as requirements change. This forward-thinking approach has enabled me to create applications that remain relevant and maintainable years after their initial deployment. I'm particularly skilled at identifying potential bottlenecks early in the development process and architecting solutions that scale gracefully.
+                  </p>
+                  
+                  <p>
+                    Quality assurance and testing are integral parts of my development workflow. I implement comprehensive testing strategies including unit tests, integration tests, and end-to-end testing to ensure reliability and performance. I'm also a strong advocate for code reviews, pair programming, and knowledge sharing sessions that help teams grow together. My experience in financial systems has instilled in me a deep appreciation for accuracy, data integrity, and the critical importance of thorough testing in production environments.
+                  </p>
+                    </div>
+              </CardContent>
+            </Card>
+          </motion.div>
 
-                  <p className="text-gray-300 leading-relaxed mb-6">{personalInfo.bio}</p>
-
-                  <div className="space-y-3 mb-6">
-                    <div className="flex items-center gap-3 text-gray-300">
-                      <MapPin className="text-blue-400" size={18} />
-                      <span>{personalInfo.location}</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-gray-300">
-                      <Mail className="text-blue-400" size={18} />
-                      <span>{personalInfo.email}</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-gray-300">
-                      <Phone className="text-blue-400" size={18} />
-                      <span>{personalInfo.phone}</span>
-                    </div>
+          {/* Technical Expertise Section */}
+          <motion.div
+            variants={fadeInUp}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            className="mb-20"
+          >
+            <Card className="bg-gray-900/40 border-white/10 backdrop-blur-xl">
+              <CardContent className="p-8 md:p-12">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-teal-600 rounded-full flex items-center justify-center">
+                    <Code className="w-6 h-6 text-white" />
                   </div>
-
-                  <Button 
-                    onClick={handleDownloadResume}
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                  >
-                    <Download className="mr-2" size={18} />
-                    Download Resume
-                  </Button>
+                  <h3 className="text-2xl md:text-3xl font-bold text-white">Technical Expertise & Specializations</h3>
+                </div>
+                
+                <div className="space-y-6 text-gray-300 leading-relaxed text-base md:text-lg">
+                  <p>
+                    My technical expertise spans the full software development lifecycle, from initial concept to deployment and maintenance. On the frontend, I specialize in building responsive, performant user interfaces using <span className="text-blue-400 font-semibold">React, Next.js, and TypeScript</span>. I have extensive experience with modern UI frameworks like Tailwind CSS and component libraries such as shadcn/ui, creating design systems that are both beautiful and functional. My 3D web development skills using Three.js and React Three Fiber have enabled me to create immersive, interactive experiences that push the boundaries of web technology.
+                  </p>
+                  
+                  <p>
+                    On the backend, I've architected and built robust APIs and microservices using <span className="text-yellow-400 font-semibold">Python (Django, FastAPI, Flask)</span>, <span className="text-green-400 font-semibold">Node.js (Express, NestJS)</span>, and <span className="text-cyan-400 font-semibold">Go</span>. I have deep expertise in database design and optimization, working with PostgreSQL, MongoDB, Redis, and MySQL to create efficient data models and query strategies. My background in accounting has given me a unique perspective on data integrity, transaction management, and the importance of accurate financial calculations in software systems.
+                  </p>
+                  
+                  <p>
+                    Mobile development is another area where I excel, having built cross-platform applications using <span className="text-blue-400 font-semibold">Flutter and React Native</span>. I understand the nuances of native mobile development, including platform-specific optimizations, push notifications, location services, and offline capabilities. My experience with containerization using Docker and CI/CD pipelines with GitHub Actions ensures that my applications are deployed reliably and efficiently.
+                  </p>
+                  
+                  <p>
+                    Beyond traditional software development, I have experience in data science and machine learning, using libraries like Pandas and TensorFlow to analyze data and build predictive models. This combination of software engineering and data science skills allows me to create intelligent systems that not only function well but also provide valuable insights and automation capabilities. Whether I'm building a financial dashboard that visualizes complex data or developing a recommendation system that learns from user behavior, I bring a holistic approach that considers both the technical implementation and the business value.
+                  </p>
+                  
+                  <p>
+                    DevOps and infrastructure management are crucial aspects of modern software development, and I have extensive experience in this area. I've set up and maintained CI/CD pipelines using GitHub Actions, configured containerized deployments with Docker, and managed cloud infrastructure on platforms like AWS and Vercel. I understand the importance of monitoring, logging, and performance optimization in production environments. My approach to DevOps emphasizes automation, reliability, and security, ensuring that applications are not only well-built but also well-deployed and well-maintained.
+                  </p>
+                  
+                  <p>
+                    Security is a top priority in all my projects. With my background in financial systems, I understand the critical importance of protecting sensitive data and ensuring compliance with industry standards. I implement security best practices including authentication and authorization systems, data encryption, secure API design, and regular security audits. I stay current with the latest security threats and mitigation strategies, ensuring that the applications I build are not only functional but also secure and trustworthy.
+                  </p>
+                  
+                  <p>
+                    User experience design is another area where I excel. I believe that great software should be intuitive, accessible, and delightful to use. I work closely with designers and stakeholders to create interfaces that are not only beautiful but also highly functional. I have experience with accessibility standards (WCAG), responsive design principles, and performance optimization techniques that ensure applications work seamlessly across devices and platforms. My goal is always to create experiences that users love and that drive business results.
+                  </p>
+                </div>
                 </CardContent>
               </Card>
             </motion.div>
 
-            {/* Stats Grid - Lazy Loaded */}
-            <LazySection 
-              fallback={<LoadingSkeleton type="stats" />}
-              threshold={0.1}
-              rootMargin="100px"
-            >
-              <StatsSection />
-            </LazySection>
-          </div>
+          {/* About Section from Homepage */}
+          <AboutSection />
 
-          {/* Skills Section - Lazy Loaded with Suspense */}
-          <LazySection 
-            fallback={<LoadingSkeleton type="skills" />}
-            threshold={0.1}
-            rootMargin="150px"
-          >
-            <Suspense fallback={<SectionLoader sectionName="Technical Skills" />}>
-              <SkillsSection />
-            </Suspense>
-          </LazySection>
-
-          {/* Timeline Section - Lazy Loaded with Suspense */}
-          <LazySection 
-            fallback={<LoadingSkeleton type="timeline" />}
-            threshold={0.1}
-            rootMargin="200px"
-          >
-            <Suspense fallback={<SectionLoader sectionName="Professional Journey" />}>
-              <TimelineSection />
-            </Suspense>
-          </LazySection>
+          {/* Tech Stack Section from Homepage */}
+          <EnhancedTechStackSection />
         </div>
       </section>
     </div>

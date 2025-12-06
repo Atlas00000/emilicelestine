@@ -5,7 +5,7 @@ import { BookOpen, Award, Users, Target, Sparkles, ArrowRight } from "lucide-rea
 import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { EnhancedButton } from "@/components/ui/enhanced-button"
 
 const ProfessionalBioSection = () => {
   const highlights = [
@@ -63,8 +63,11 @@ const ProfessionalBioSection = () => {
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent px-2">
             Where Tech Meets Purpose
           </h2>
-          <p className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed px-4">
+          <p className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed px-4 mb-4">
             A unique blend of financial expertise, technical innovation, and community leadership
+          </p>
+          <p className="text-base sm:text-lg text-gray-500 max-w-4xl mx-auto leading-relaxed px-4">
+            My professional journey represents a convergence of analytical thinking and creative problem-solving. With a Master's degree in Accounting from the University of Lagos and extensive experience in financial systems, I bring a unique perspective to software development that prioritizes both technical excellence and business value. This dual expertise allows me to understand not just how to build applications, but why they matter from a strategic and financial standpoint.
           </p>
         </motion.div>
 
@@ -76,7 +79,7 @@ const ProfessionalBioSection = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <Card className="bg-gray-900/50 border-gray-800 backdrop-blur-sm h-full">
+            <Card className="bg-gray-900/40 border-white/10 backdrop-blur-xl h-full">
               <CardContent className="p-6 sm:p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
@@ -115,21 +118,35 @@ const ProfessionalBioSection = () => {
                     to every project.
                   </p>
 
+                  <p>
+                    My work philosophy centers on creating solutions that are not only technically robust but also accessible, intuitive, and impactful. I believe that great software should solve real problems for real people, whether that's helping healthcare providers manage patient data more efficiently, enabling educators to create engaging learning experiences, or empowering communities to connect and collaborate more effectively.
+                  </p>
+
+                  <p>
+                    Throughout my career, I've had the privilege of working on diverse projects that span multiple industries and technologies. From developing secure financial systems that handle sensitive transactions to building immersive 3D web experiences that educate users about wildlife conservation, each project has taught me something new about the intersection of technology, design, and human needs.
+                  </p>
+
+                  <p>
+                    What drives me is the opportunity to use technology as a force for positive change. Whether I'm contributing to open-source projects, mentoring aspiring developers, or building applications that address real-world challenges, I'm constantly seeking ways to leverage my skills for maximum impact. This commitment to purpose-driven development is what sets my work apart and what I bring to every collaboration.
+                  </p>
+
                   <div className="pt-4">
-                    <blockquote className="border-l-4 border-blue-500 pl-4 italic text-blue-300 text-sm sm:text-base">
-                      "Tech meets purpose—that's the work I do."
+                    <blockquote className="border-l-4 border-cyan-500 pl-4 italic text-cyan-300 text-sm sm:text-base">
+                      "Tech meets purpose—that's the work I do. Every line of code, every design decision, every feature is crafted with intention and impact in mind."
                     </blockquote>
                   </div>
                 </div>
 
                 <div className="mt-6 sm:mt-8">
                   <Link href="/projects">
-                    <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 w-full sm:w-auto touch-manipulation">
-                      <span className="flex items-center">
-                    View My Work
-                    <ArrowRight className="ml-2" size={16} />
-                      </span>
-                  </Button>
+                    <EnhancedButton
+                      variant="outline"
+                      size="md"
+                      rightIcon={<ArrowRight size={16} />}
+                      className="w-full sm:w-auto"
+                    >
+                      View My Work
+                    </EnhancedButton>
                   </Link>
                 </div>
               </CardContent>
@@ -155,7 +172,7 @@ const ProfessionalBioSection = () => {
                 viewport={{ once: true }}
                 className="touch-manipulation"
               >
-                <Card className="bg-gray-900/50 border-gray-800 hover:border-blue-500/50 transition-all duration-300 backdrop-blur-sm h-full">
+                <Card className="bg-gray-900/40 border-white/10 hover:border-cyan-500/30 transition-all duration-300 backdrop-blur-xl h-full">
                   <CardContent className="p-4 sm:p-6 text-center">
                     <div
                       className={`w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 sm:mb-4 bg-gradient-to-br ${highlight.color} rounded-full flex items-center justify-center`}
@@ -204,7 +221,7 @@ const ProfessionalBioSection = () => {
                 {/* Desktop layout */}
                 <div className={`hidden md:block w-5/12 ${index % 2 === 0 ? "pr-8 text-right" : "pl-8"}`}>
                   <motion.div whileHover={{ y: -5 }} transition={{ duration: 0.3 }}>
-                  <Card className="bg-gray-900/50 border-gray-800 backdrop-blur-sm hover:border-blue-500/50 transition-all duration-300">
+                  <Card className="bg-gray-900/40 border-white/10 backdrop-blur-xl hover:border-cyan-500/30 transition-all duration-300">
                     <CardContent className="p-4">
                         <Badge className="bg-blue-600 text-white mb-2 text-xs">{item.year}</Badge>
                         <p className="text-gray-300 text-sm leading-relaxed">{item.event}</p>
@@ -224,7 +241,7 @@ const ProfessionalBioSection = () => {
                 {/* Mobile layout - full width cards */}
                 <div className="md:hidden w-full">
                   <motion.div whileTap={{ scale: 0.98 }} className="touch-manipulation">
-                    <Card className="bg-gray-900/50 border-gray-800 backdrop-blur-sm hover:border-blue-500/50 transition-all duration-300">
+                    <Card className="bg-gray-900/40 border-white/10 backdrop-blur-xl hover:border-cyan-500/30 transition-all duration-300">
                       <CardContent className="p-4">
                         <div className="flex items-center gap-3 mb-2">
                           <Badge className="bg-blue-600 text-white text-xs">{item.year}</Badge>

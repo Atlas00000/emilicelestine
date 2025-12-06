@@ -5,7 +5,7 @@ import type React from "react"
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter, CheckCircle, AlertCircle } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { EnhancedButton } from "@/components/ui/enhanced-button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -215,7 +215,7 @@ const ContactSection = () => {
         >
           {/* Contact Form */}
           <motion.div variants={itemVariants}>
-            <Card className="bg-card border-border backdrop-blur-sm transition-colors duration-300">
+            <Card className="bg-gray-900/40 border-white/10 backdrop-blur-xl transition-colors duration-300">
               <CardContent className="p-8">
                 <h3 className="text-2xl font-semibold text-foreground mb-6 transition-colors duration-300">
                   Send me a message
@@ -380,33 +380,17 @@ const ContactSection = () => {
                         </motion.div>
                       </div>
                       <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                        <Button
+                        <EnhancedButton
                           type="submit"
                           disabled={isSubmitting}
-                          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 font-semibold relative overflow-hidden group"
+                          variant="outline"
+                          size="lg"
+                          className="w-full"
+                          rightIcon={!isSubmitting ? <Send size={18} /> : undefined}
+                          loading={isSubmitting}
                         >
-                          <motion.div
-                            className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent"
-                            initial={{ x: "-100%" }}
-                            whileHover={{ x: "100%" }}
-                            transition={{ duration: 0.6 }}
-                          />
-                          {isSubmitting ? (
-                            <div className="flex items-center relative z-10">
-                              <motion.div
-                                animate={{ rotate: 360 }}
-                                transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-                                className="w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"
-                              />
-                              Sending Message...
-                            </div>
-                          ) : (
-                            <span className="flex items-center relative z-10">
-                              <Send className="mr-2" size={18} />
-                              Send Message
-                            </span>
-                          )}
-                        </Button>
+                          {isSubmitting ? 'Sending Message...' : 'Send Message'}
+                        </EnhancedButton>
                       </motion.div>
                     </motion.form>
                   )}
@@ -421,10 +405,21 @@ const ContactSection = () => {
               <h3 className="text-2xl font-semibold text-foreground mb-6 transition-colors duration-300">
                 Get in touch
               </h3>
-              <p className="text-muted-foreground leading-relaxed mb-8 transition-colors duration-300">
-                I'm always open to discussing new opportunities, creative projects, or potential collaborations. Whether
-                you have a question or just want to say hi, I'll do my best to get back to you within 24 hours!
-              </p>
+              <div className="space-y-4 text-muted-foreground leading-relaxed mb-8 transition-colors duration-300">
+                <p>
+                  I'm always open to discussing new opportunities, creative projects, or potential collaborations. Whether
+                  you have a question or just want to say hi, I'll do my best to get back to you within 24 hours!
+                </p>
+                <p>
+                  I specialize in full-stack web development, mobile applications, and financial technology solutions. If you're looking to build a new product, improve an existing system, or explore how technology can solve a specific business challenge, I'd love to hear about your project. My experience spans across multiple industries including finance, healthcare, education, and community development, so I bring a diverse perspective to every collaboration.
+                </p>
+                <p>
+                  Beyond client work, I'm also interested in open-source contributions, speaking opportunities, and technical mentorship. If you're working on something interesting, facing a challenging technical problem, or looking for guidance on your development journey, feel free to reach out. I believe in the power of knowledge sharing and collaborative problem-solving, and I'm always excited to connect with fellow developers, entrepreneurs, and innovators.
+                </p>
+                <p>
+                  No matter what brings you here, I appreciate you taking the time to visit my portfolio. Every project starts with a conversation, and I'm looking forward to hearing about yours. Let's explore how we can work together to bring your vision to life.
+                </p>
+              </div>
             </div>
 
             {/* Contact Information */}

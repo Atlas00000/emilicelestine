@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ExternalLink, Github, Eye, Calendar, Code2, Play, Construction, Zap } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { EnhancedButton } from "@/components/ui/enhanced-button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
@@ -62,7 +62,7 @@ const InDevelopmentSection = () => {
   }
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-br from-yellow-50/20 to-orange-50/20 dark:from-yellow-900/10 dark:to-orange-900/10">
+    <section className="py-20 px-4 relative">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <motion.div
@@ -92,10 +92,19 @@ const InDevelopmentSection = () => {
             whileInView={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
             viewport={{ once: true }}
-            className="text-xl text-muted-foreground max-w-3xl mx-auto transition-colors duration-300"
+            className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed mb-4"
           >
             Exciting projects currently in active development. These innovative solutions are being crafted with 
             cutting-edge technologies and will be launching soon.
+          </motion.p>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            viewport={{ once: true }}
+            className="text-lg text-gray-500 max-w-4xl mx-auto leading-relaxed"
+          >
+            Each project in this section represents a commitment to innovation and excellence. I'm actively working on these solutions, applying modern development practices, rigorous testing methodologies, and user-centered design principles. These projects span multiple domains—from enterprise applications to creative tools—each addressing unique challenges and opportunities. The development process involves continuous iteration, stakeholder feedback, and performance optimization to ensure that when these projects launch, they deliver exceptional value and user experiences. I'm excited to share these works-in-progress and look forward to their completion and deployment.
           </motion.p>
         </motion.div>
 
@@ -156,7 +165,7 @@ const InDevelopmentSection = () => {
               onClick={() => setSelectedProject(project)}
             >
               <motion.div variants={cardHoverVariants}>
-                <Card className="bg-white/70 dark:bg-gray-900/70 border-yellow-200 dark:border-yellow-800 hover:border-yellow-400 dark:hover:border-yellow-600 transition-all duration-300 backdrop-blur-sm h-full overflow-hidden shadow-lg hover:shadow-xl">
+                <Card className="bg-gray-900/40 border-white/10 backdrop-blur-xl hover:border-cyan-500/30 transition-all duration-300 h-full overflow-hidden">
                   <div className="relative overflow-hidden">
                     <OptimizedImage
                       src={project.image || "/placeholder.svg"}
@@ -234,60 +243,46 @@ const InDevelopmentSection = () => {
                       className="absolute inset-0 flex items-center justify-center gap-3"
                     >
                       <motion.div whileHover={{ scale: 1.1, y: -2 }} whileTap={{ scale: 0.9 }}>
-                        <Button
+                        <EnhancedButton
+                          variant="outline"
                           size="sm"
-                          className="bg-white/90 backdrop-blur-sm text-gray-900 border-white/30 hover:bg-white shadow-lg"
-                          asChild
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            window.open(project.url, '_blank')
+                          }}
+                          rightIcon={<Eye size={16} />}
                         >
-                          <a
-                            href={project.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <Eye className="mr-2" size={16} />
-                            Preview
-                          </a>
-                        </Button>
+                          Preview
+                        </EnhancedButton>
                       </motion.div>
                       {project.github && (
                         <motion.div whileHover={{ scale: 1.1, y: -2 }} whileTap={{ scale: 0.9 }}>
-                          <Button
-                            size="sm"
+                          <EnhancedButton
                             variant="outline"
-                            className="bg-white/90 backdrop-blur-sm text-gray-900 border-white/30 hover:bg-white shadow-lg"
-                            asChild
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              window.open(project.github, '_blank')
+                            }}
+                            rightIcon={<Github size={16} />}
                           >
-                            <a
-                              href={project.github}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              <Github className="mr-2" size={16} />
-                              Code
-                            </a>
-                          </Button>
+                            Code
+                          </EnhancedButton>
                         </motion.div>
                       )}
                       {project.video && (
                         <motion.div whileHover={{ scale: 1.1, y: -2 }} whileTap={{ scale: 0.9 }}>
-                          <Button
-                            size="sm"
+                          <EnhancedButton
                             variant="outline"
-                            className="bg-white/90 backdrop-blur-sm text-gray-900 border-white/30 hover:bg-white shadow-lg"
-                            asChild
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              window.open(project.video, '_blank')
+                            }}
+                            rightIcon={<Play size={16} />}
                           >
-                            <a
-                              href={project.video}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              <Play className="mr-2" size={16} />
-                              Video
-                            </a>
-                          </Button>
+                            Video
+                          </EnhancedButton>
                         </motion.div>
                       )}
                     </motion.div>
@@ -400,28 +395,33 @@ const InDevelopmentSection = () => {
           viewport={{ once: true }}
           className="text-center mt-12"
         >
-          <motion.p
-            className="text-lg text-gray-600 dark:text-gray-400 mb-6"
+          <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
             viewport={{ once: true }}
+            className="space-y-4 mb-6"
           >
-            Interested in these upcoming projects? Let's discuss collaboration opportunities!
-          </motion.p>
+            <p className="text-lg text-gray-400 leading-relaxed">
+              Interested in these upcoming projects? These innovative solutions represent the future of technology and design, combining cutting-edge frameworks with intuitive user experiences. Each project is being developed with careful attention to scalability, performance, and user needs.
+            </p>
+            <p className="text-base text-gray-500 leading-relaxed">
+              I'm always open to collaboration opportunities, partnerships, and discussions about how these projects can be enhanced or adapted to meet specific business requirements. Whether you're interested in early access, custom implementations, or contributing to the development process, I'd love to hear from you. Let's explore how we can work together to bring these innovative solutions to market and create meaningful impact.
+            </p>
+          </motion.div>
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Button
+            <EnhancedButton
+              variant="outline"
               size="lg"
-              className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white shadow-lg"
               asChild
             >
               <Link href="/contact">
                 Get In Touch
               </Link>
-            </Button>
+            </EnhancedButton>
           </motion.div>
         </motion.div>
       </div>

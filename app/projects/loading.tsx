@@ -1,5 +1,5 @@
-import ProjectsLoadingScreen from "@/components/projects-loading-screen"
+import { EnhancedLoadingScreen } from "@/components/loading/enhanced-loading-screen"
  
 export default function Loading() {
-  return <ProjectsLoadingScreen />
+  return <EnhancedLoadingScreen duration={1500} />
 }

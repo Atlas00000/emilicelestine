@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ExternalLink, Github, Eye, Calendar, Code2, Palette, Lightbulb, Sparkles, Globe, Plane, Waves, Zap, Target, Users, TrendingUp, Box } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { EnhancedButton } from "@/components/ui/enhanced-button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
@@ -117,7 +117,7 @@ const DesignStageSection = () => {
   }
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-br from-indigo-50/20 to-purple-50/20 dark:from-indigo-900/10 dark:to-purple-900/10">
+    <section className="py-20 px-4 relative">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <motion.div
@@ -212,7 +212,7 @@ const DesignStageSection = () => {
                 whileHover={{ y: -5 }}
                 className="group"
               >
-                <Card className="bg-white/70 dark:bg-gray-900/70 border-indigo-200 dark:border-indigo-800 hover:border-indigo-400 dark:hover:border-indigo-600 transition-all duration-300 backdrop-blur-sm overflow-hidden shadow-lg hover:shadow-xl">
+                <Card className="bg-gray-900/40 border-white/10 backdrop-blur-xl hover:border-cyan-500/30 transition-all duration-300 overflow-hidden">
                   <div className={`p-8 ${details?.gradient} bg-gradient-to-r`}>
                     <div className="flex flex-col lg:flex-row gap-8">
                       {/* Project Icon and Header */}
@@ -311,32 +311,25 @@ const DesignStageSection = () => {
                         <div className="flex flex-wrap gap-3 pt-4">
                           {project.github && (
                             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                              <Button
+                              <EnhancedButton
                                 variant="outline"
-                                className="border-indigo-300 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/20"
-                                asChild
+                                size="sm"
+                                onClick={() => window.open(project.github, '_blank')}
+                                rightIcon={<Github size={16} />}
                               >
-                                <a
-                                  href={project.github}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <Github className="mr-2" size={16} />
-                                  View Repository
-                                </a>
-                              </Button>
+                                View Repository
+                              </EnhancedButton>
                             </motion.div>
                           )}
                           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                            <Button
-                              className="bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white"
-                              asChild
+                            <EnhancedButton
+                              variant="outline"
+                              size="sm"
+                              onClick={() => setSelectedProject(project)}
+                              rightIcon={<Eye size={16} />}
                             >
-                              <a href="#">
-                                <Eye className="mr-2" size={16} />
-                                View Details
-                              </a>
-                            </Button>
+                              View Details
+                            </EnhancedButton>
                           </motion.div>
                         </div>
                       </div>
@@ -371,36 +364,39 @@ const DesignStageSection = () => {
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
               Ready to Bring These Concepts to Life?
             </h3>
-            <p className="text-lg text-gray-600 dark:text-gray-400 mb-6 max-w-2xl mx-auto">
-              These innovative concepts represent the cutting edge of technology. Let's discuss collaboration 
-              opportunities and turn these visionary ideas into reality.
-            </p>
+            <div className="space-y-4 mb-6 max-w-3xl mx-auto">
+              <p className="text-lg text-gray-400 leading-relaxed">
+                These innovative concepts represent the cutting edge of technology. Each project has been meticulously designed with a focus on user experience, technical excellence, and market viability. The conceptual phase has involved extensive research, user interviews, competitive analysis, and technical feasibility studies.
+              </p>
+              <p className="text-base text-gray-500 leading-relaxed">
+                I'm actively seeking partners, investors, and collaborators who share the vision of bringing these groundbreaking ideas to life. Whether you're interested in funding, technical collaboration, or strategic partnerships, I'd love to discuss how we can work together to turn these visionary concepts into reality. Each project has a detailed roadmap, technical specifications, and a clear path to implementation. Let's explore collaboration opportunities and create something extraordinary together.
+              </p>
+            </div>
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
-              <Button
+              <EnhancedButton
+                variant="outline"
                 size="lg"
-                className="bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white"
                 asChild
+                rightIcon={<Users size={20} />}
               >
                 <Link href="/contact">
-                  <Users className="mr-2" size={20} />
                   Start a Project
                 </Link>
-              </Button>
-              <Button
-                size="lg"
+              </EnhancedButton>
+              <EnhancedButton
                 variant="outline"
-                className="border-indigo-300 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/20"
+                size="lg"
                 asChild
+                rightIcon={<TrendingUp size={20} />}
               >
                 <Link href="#">
-                  <TrendingUp className="mr-2" size={20} />
                   View Roadmap
                 </Link>
-              </Button>
+              </EnhancedButton>
             </motion.div>
           </motion.div>
         </motion.div>
