@@ -32,33 +32,29 @@ const nextConfig = {
     },
   },
   webpack: (config, { dev, isServer }) => {
-    // Improve Fast Refresh in development
-    if (dev && !isServer) {
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        'react-dom$': 'react-dom/profiling',
-        'scheduler/tracing': 'scheduler/tracing-profiling',
-      };
-    }
-    
+    // Only apply optimizations in production for client-side
     if (!dev && !isServer) {
       config.optimization.usedExports = true;
-      config.optimization.sideEffects = false;
+      // Don't set sideEffects to false globally - it can break some modules
       
       config.optimization.splitChunks = {
         chunks: 'all',
         cacheGroups: {
+          default: false,
+          vendors: false,
           vendor: {
             test: /[\\/]node_modules[\\/]/,
             name: 'vendors',
             chunks: 'all',
             priority: 10,
+            reuseExistingChunk: true,
           },
           framer: {
             test: /[\\/]node_modules[\\/]framer-motion[\\/]/,
             name: 'framer-motion',
             chunks: 'all',
             priority: 20,
+            reuseExistingChunk: true,
           },
           common: {
             name: 'common',
